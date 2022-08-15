@@ -38,6 +38,9 @@
     </head>
 
     <body class="g-sidenav-show  bg-gray-200">
+        <%- include('./notifications/success')  %>
+        <%- include('./notifications/error')  %>
+
         <aside
             class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
             id="sidenav-main">
@@ -115,9 +118,11 @@
             </div>
             <div class="sidenav-footer position-absolute w-100 bottom-0 ">
                 <div class="mx-3">
-                    <a class="btn bg-gradient-danger mt-4 w-100"
+                    <!-- <a class="btn bg-gradient-danger mt-4 w-100"
                         href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree"
-                        type="button">Logout</a>
+                        type="button">Logout</a> -->
+                    <button class="btn bg-gradient-danger mt-4 w-100" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">Logout</button>
                 </div>
             </div>
         </aside>
@@ -264,6 +269,28 @@
 
 
         </main>
+
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Do you wish to logout?</h5>
+                        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="submit" class="btn btn-primary"
+                            onclick="location.href='http://localhost:3000/NegomboHardware/logout'">Yes</button> -->
+                        <a href="http://localhost:3000/NegomboHardware/logout" type="button"
+                            class="btn btn-primary">Yes</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
 
 
@@ -533,6 +560,7 @@
         <script async defer src="https://buttons.github.io/buttons.js"></script>
         <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
         <script src="/assets/js/material-dashboard.min.js?v=3.0.2"></script>
+        <script src="/core/js/logoutHandler.js"></script>
     </body>
 
 </html>

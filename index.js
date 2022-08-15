@@ -11,7 +11,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const mysql2 = require('mysql2/promise');
 const MySQLStore = require('express-mysql-session')(session);
-// const flashMiddleware = require('./middleware/flashMiddleware');
+const flashMiddleware = require('./middleware/flashMiddleware');
 
 //* Parameters for the server-----------------------
 
@@ -57,7 +57,7 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 
 
-app.use(session(userSession));
+app.use(session(userSession), flash(), flashMiddleware);
 app.use('/NegomboHardware/sales', router.sales);
 app.use('/NegomboHardware/cashier', router.cashier);
 app.use('/NegomboHardware', router.default);
