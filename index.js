@@ -22,6 +22,7 @@ app.use(methodOverride('_method'));
 
 app.use('/NegomboHardware/sales', router.sales);
 app.use('/NegomboHardware/cashier', router.cashier);
+app.use('/NegomboHardware', router.default);
 
 
 app.listen(port, () => {
