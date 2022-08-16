@@ -23,14 +23,14 @@ router.post('/login', async (req, res) => {
     console.log(result);
     if (result.isValid) {
         authentication.serializeUser(req, result.id, result.type);
-        req.flash('success', 'Logged in successfully!');
+        req.flash('success', '      Logged in successfully!');
         if (result.type === 'salesman') {
-            res.redirect('/NegomboHardware/sales');
+            res.redirect('/NegomboHardware/sales/home');
         } else if (result.type === 'cashier') {
-            res.redirect('/NegomboHardware/cashier');
+            res.redirect('/NegomboHardware/cashier/home');
         }
     } else {
-        req.flash('error', 'username or password is incorrect!');
+        req.flash('error', '    username or password is incorrect!');
         res.redirect('/NegomboHardware/login');
     }
 });

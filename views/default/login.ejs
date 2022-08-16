@@ -26,10 +26,14 @@
         <!--===============================================================================================-->
         <link rel="stylesheet" type="text/css" href="/Login_v15/css/util.css">
         <link rel="stylesheet" type="text/css" href="/Login_v15/css/main.css">
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" type="text/css" />
         <!--===============================================================================================-->
     </head>
 
     <body>
+        <%- include('../notifications/success')  %>
+        <%- include('../notifications/error')  %>
 
         <div class="limiter">
             <div class="container-login100">
@@ -79,6 +83,10 @@
             </div>
         </div>
 
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
         <!--===============================================================================================-->
         <script src="/Login_v15/vendor/jquery/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->
@@ -93,6 +101,8 @@
         <script src="/Login_v15/vendor/daterangepicker/daterangepicker.js"></script>
         <!--===============================================================================================-->
         <script src="/Login_v15/vendor/countdowntime/countdowntime.js"></script>
+        <script src="/assets/js/plugins/bootstrap-notify.js"></script>
+        <script src="/core/js/notificationsHandler.js"></script>
         <!--===============================================================================================-->
         <script src="/Login_v15/js/main.js"></script>
 
