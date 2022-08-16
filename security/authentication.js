@@ -13,15 +13,20 @@ const dbOpt = {
 
 async function addNewUser(username, password, email, type) {
     var connection = null;
-    if (dbOpt.host) {
-        connection = await mysql2.createConnection(dbOpt);
-    } else {
-        connection = await mysql2.createConnection({
-            host: process.env.DATABASE_URL,
-            user: process.env.DATABASE_USER,
-            database: process.env.DATABASE_NAME
-        })
-    }
+    // if (dbOpt.host) {
+    //     connection = await mysql2.createConnection(dbOpt);
+    // } else {
+    //     connection = await mysql2.createConnection({
+    //         host: process.env.DATABASE_URL,
+    //         user: process.env.DATABASE_USER,
+    //         database: process.env.DATABASE_NAME
+    //     })
+    // }
+    connection = await mysql2.createConnection({
+        host: 'localhost',
+        user: 'root',
+        database: 'inventoryManagement'
+    })
     const id = uuidv4();
     const hash = await bcrypt.hash(password, 12);
     const query = 'INSERT INTO users (user_id,user_name,user_pw,email,type) VALUES (?,?,?,?,?)';
@@ -66,6 +71,7 @@ const deserializeUser = function deserializeUserSession(req) {
 
 module.exports = { login: userLogin, serializeUser: serializeUser, deserializeUser: deserializeUser, createNewUser: addNewUser };
 
-
+// addNewUser('Yashoda', '1234@', 'yashoda@gmail.com', 'stockM');
+// addNewUser('Joy', '5678#', 'joy@gmail.com', 'manager');
 // addNewUser('Chimitha', "Booom", "pereraroshika98@gmail.com", "salesman");
 // Roshika Hello
