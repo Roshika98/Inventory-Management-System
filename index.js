@@ -12,10 +12,14 @@ const flash = require('connect-flash');
 const mysql2 = require('mysql2/promise');
 const MySQLStore = require('express-mysql-session')(session);
 const flashMiddleware = require('./middleware/flashMiddleware');
+const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+const ioUsers = require('./utility/realtimeNotify');
 
 //* Parameters for the server-----------------------
 
-const app = express();
+
 const port = 3000;
 
 //* utility settings --------------------------------------
@@ -65,6 +69,20 @@ app.use('/NegomboHardware/cashier', router.cashier);
 app.use('/NegomboHardware', router.default);
 
 
-app.listen(port, () => {
+
+
+server.listen(port, () => {
     console.log('Listening on port ', port);
+});
+
+
+
+io.on('connection', (client) => {
+    console.log("Client connected.....");
+    client.on('register', (data) => {
+        // console.log(client.id);
+        ioUsers.addOrUpdateUser(data, client.id);
+        // console.log(ioUsers.retrieveSocketId(data));
+    });
+
 });

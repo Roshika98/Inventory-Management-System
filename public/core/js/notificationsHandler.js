@@ -75,7 +75,10 @@ function notifyWarning() {
     }
 }
 
-
+var socket = io.connect('http://localhost:3000');
+socket.on('connect', (data) => {
+    socket.emit('register', "user");
+});
 
 
 notifySuccess();
