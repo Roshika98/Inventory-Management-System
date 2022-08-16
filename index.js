@@ -58,6 +58,8 @@ app.use(methodOverride('_method'));
 
 
 app.use(session(userSession), flash(), flashMiddleware);
+app.use('/NegomboHardware/manager', router.manager);
+app.use('/NegomboHardware/stocks', router.stocks);
 app.use('/NegomboHardware/sales', router.sales);
 app.use('/NegomboHardware/cashier', router.cashier);
 app.use('/NegomboHardware', router.default);

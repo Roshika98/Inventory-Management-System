@@ -26,6 +26,32 @@ const isAuthCashier = (req, res, next) => {
 };
 
 
+const isAuthManager = (req, res, next) => {
+    if (req.session.user_id) {
+        if (req.session.user_type === 'manager') {
+            next();
+        } else {
+            res.redirect('/NegomboHardware/login');
+        }
+    } else {
+        res.redirect('/NegomboHardware/login');
+    }
+};
 
 
-module.exports = { isAuthSales, isAuthCashier };
+const isAuthStocks = (req, res, next) => {
+    if (req.session.user_id) {
+        if (req.session.user_type === 'stockM') {
+            next();
+        } else {
+            res.redirect('/NegomboHardware/login');
+        }
+    } else {
+        res.redirect('/NegomboHardware/login');
+    }
+};
+
+
+
+
+module.exports = { isAuthSales, isAuthCashier, isAuthManager, isAuthStocks };
