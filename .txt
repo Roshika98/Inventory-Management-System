@@ -1,8 +1,8 @@
-username: Milton.Swaniawski71  password: F7kUWQ9I  userType: Manager
-username: David.Hahn90  password: Qw3pRDze  userType: Salesman
-username: Preston.Schiller  password: MIpv5Caq  userType: Salesman
-username: Jamie13  password: SABq7CYD  userType: Accountant
-username: Tyrone88  password: A5P4Xvf7  userType: Accountant
-username: Leroy.Sipes  password: o06z6tTa  userType: StockHandler
-username: Darryl82  password: JH60XWhF  userType: StockHandler
-username: Ralph_Bartoletti51  password: V5bp7TnG  userType: StockHandler
+username: Dewey95  password: 5IpFpcfv  userType: Manager
+username: Perry67  password: _g13joxq  userType: Salesman
+username: Pedro_Schowalter62  password: N4X36jvD  userType: Salesman
+username: Emilio79  password: p21QRjyw  userType: Accountant
+username: Abel12  password: 9SZs1awV  userType: Accountant
+username: Homer83  password: 69ToWt0n  userType: StockHandler
+username: Kyle_Walker12  password: s_abnCBt  userType: StockHandler
+username: Conrad92  password: xUpmxgm0  userType: StockHandler
