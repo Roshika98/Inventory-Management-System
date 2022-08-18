@@ -23,13 +23,13 @@ router.post('/login', async (req, res) => {
     if (result.isValid) {
         authentication.serializeUser(req, result.id, result.type);
         req.flash('success', '      Logged in successfully!');
-        if (result.type === 'salesman') {
+        if (result.type === 'Salesman') {
             res.redirect('/NegomboHardware/sales/home');
-        } else if (result.type === 'cashier') {
+        } else if (result.type === 'Accountant') {
             res.redirect('/NegomboHardware/cashier/home');
-        } else if (result.type === 'manager') {
+        } else if (result.type === 'Manager') {
             res.redirect('/NegomboHardware/manager/home');
-        } else if (result.type === 'stockM') {
+        } else if (result.type === 'StockHandler') {
             res.redirect('/NegomboHardware/stocks/home');
         }
     } else {

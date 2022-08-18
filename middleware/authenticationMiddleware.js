@@ -2,7 +2,7 @@
 
 const isAuthSales = (req, res, next) => {
     if (req.session.user_id) {
-        if (req.session.user_type === 'salesman') {
+        if (req.session.user_type === 'Salesman') {
             next();
         } else {
             res.redirect('/NegomboHardware/login');
@@ -15,7 +15,7 @@ const isAuthSales = (req, res, next) => {
 
 const isAuthCashier = (req, res, next) => {
     if (req.session.user_id) {
-        if (req.session.user_type === 'cashier') {
+        if (req.session.user_type === 'Accountant') {
             next();
         } else {
             res.redirect('/NegomboHardware/login');
@@ -28,7 +28,7 @@ const isAuthCashier = (req, res, next) => {
 
 const isAuthManager = (req, res, next) => {
     if (req.session.user_id) {
-        if (req.session.user_type === 'manager') {
+        if (req.session.user_type === 'Manager') {
             next();
         } else {
             res.redirect('/NegomboHardware/login');
@@ -41,7 +41,7 @@ const isAuthManager = (req, res, next) => {
 
 const isAuthStocks = (req, res, next) => {
     if (req.session.user_id) {
-        if (req.session.user_type === 'stockM') {
+        if (req.session.user_type === 'StockHandler') {
             next();
         } else {
             res.redirect('/NegomboHardware/login');

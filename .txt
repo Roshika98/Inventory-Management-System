@@ -1,0 +1,8 @@
+username: Milton.Swaniawski71  password: F7kUWQ9I  userType: Manager
+username: David.Hahn90  password: Qw3pRDze  userType: Salesman
+username: Preston.Schiller  password: MIpv5Caq  userType: Salesman
+username: Jamie13  password: SABq7CYD  userType: Accountant
+username: Tyrone88  password: A5P4Xvf7  userType: Accountant
+username: Leroy.Sipes  password: o06z6tTa  userType: StockHandler
+username: Darryl82  password: JH60XWhF  userType: StockHandler
+username: Ralph_Bartoletti51  password: V5bp7TnG  userType: StockHandler
