@@ -8,7 +8,7 @@ router.get('', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-    res.render('default/login', { layout: false });
+    res.render('default/loginNew', { layout: false });
 });
 
 router.get('/logout', (req, res) => {

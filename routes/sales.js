@@ -3,21 +3,25 @@ const router = express.Router();
 const authMiddleware = require('../middleware/authenticationMiddleware');
 const database = require('../database/database');
 const name = 'Sales';
-const salesLayout = 'sales/layout';
+
 
 
 router.get('', authMiddleware.isAuthSales, (req, res) => {
     res.redirect('/NegomboHardware/sales/home');
 })
 
-router.get('/home', authMiddleware.isAuthSales, (req, res) => {
-    res.render('sales/partials/dashboard', { title: name, page: 'dashboard', layout: salesLayout });
+router.get('/home', authMiddleware.isAuthSales, async (req, res) => {
+    var id = req.session.user_id;
+    var userType = req.session.user_type;
+    var { user_name } = await database.getUserName(id);
+    res.render('partials/sales/dashboard', { title: name, page: 'dashboard', user_name, userType });
 });
 
 router.get('/account', authMiddleware.isAuthSales, async (req, res) => {
     var id = req.session.user_id;
-    await database.getUserDetails(id);
-    res.render('sales/partials/account', { title: name, page: 'Account', layout: salesLayout });
+    var userType = req.session.user_type;
+    var details = await database.getUserDetails(id);
+    res.render('partials/sales/account', { title: name, page: 'Account', details: details, userType });
 });
 
 module.exports = router;

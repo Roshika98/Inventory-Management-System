@@ -9,7 +9,8 @@ router.get('', authMiddleware.isAuthStocks, (req, res) => {
 });
 
 router.get('/home', authMiddleware.isAuthStocks, (req, res) => {
-    res.render('stocks/dashboard', { title: name, page: 'dashboard' });
+    var userType = req.session.user_type;
+    res.render('partials/stocks/dashboard', { title: name, page: 'dashboard', userType });
 });
 
 module.exports = router;

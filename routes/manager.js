@@ -9,7 +9,8 @@ router.get('', authMiddleware.isAuthManager, (req, res) => {
 });
 
 router.get('/home', authMiddleware.isAuthManager, (req, res) => {
-    res.render('cashier/dashboard', { title: name, page: 'dashboard' });
+    var userType = req.session.user_type;
+    res.render('partials/cashier/dashboard', { title: name, page: 'dashboard', userType });
 });
 
 module.exports = router;

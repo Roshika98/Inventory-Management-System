@@ -12,9 +12,15 @@ class database {
     }
 
     async getUserDetails(id) {
-        var q = 'select user_name,email,type from users where user_id=?';
+        var q = 'select user_name,email,type,first_name,last_name,mobile_no from users where user_id=?';
         const result = await this.connection.execute(q, [id]);
-        console.log(result[0][0]);
+        return result[0][0];
+    }
+
+    async getUserName(id) {
+        var q = 'select user_name from users where user_id=?';
+        const result = await this.connection.execute(q, [id]);
+        return result[0][0];
     }
 
 
