@@ -34,4 +34,21 @@ router.get('/products', authMiddleware.isAuthSales, async (req, res) => {
     res.render('partials/sales/content/searchedProds', { layout: false, products: result });
 });
 
+router.get('/orders', authMiddleware.isAuthSales, async (req, res) => {
+    var orders = await database.getTempCustOrders();
+    var userType = req.session.user_type;
+    var result = await database.getOrderItemsDetails(orders);
+    res.render('partials/sales/order', { title: name, page: 'Order', items: result, userType, script: '' });
+});
+
+
+// * ------------ POST REQUESTS -------------------------------------
+
+router.post('/orders', authMiddleware.isAuthSales, async (req, res) => {
+    var params = req.body;
+    console.log(params);
+    var createOrder = await database.addTempItem(params.itemCode, params.quantity);
+    res.sendStatus(200);
+});
+
 module.exports = router;
