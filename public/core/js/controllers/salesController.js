@@ -9,8 +9,13 @@ console.log("Hello!");
 searchSubmit.addEventListener('click', async (event) => {
     if (searchTxt.value) {
         var params = new URLSearchParams([['product', `${searchTxt.value}`]]);
-        var result = await axios.get('http://localhost:3000/NegomboHardware/sales/products', { params });
-        fillDynamicContent(result.data);
+        try {
+            var result = await axios.get('http://localhost:3000/NegomboHardware/sales/products', { params });
+            fillDynamicContent(result.data);
+        } catch (error) {
+            var errorTerm = '<h4>Something went wrong :(</h4>';
+            fillDynamicContent(errorTerm);
+        }
     }
 });
 
