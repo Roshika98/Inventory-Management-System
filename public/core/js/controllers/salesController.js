@@ -35,7 +35,7 @@ function itemCart() {
             var parent = element.parentNode;
             var quantity = parent.querySelector('input').value;
             var params = JSON.stringify(prepareBody(item_code, quantity));
-            var response = await axios.post('http://localhost:3000/NegomboHardware/sales/orders', params,
+            var response = await axios.post('http://localhost:3000/NegomboHardware/sales/cart', params,
                 { headers: { 'Content-Type': 'application/json', } });
             console.log(response.data);
         });

@@ -23,8 +23,9 @@ router.get('/home', authMiddleware.isAuthSales, async (req, res) => {
 router.get('/account', authMiddleware.isAuthSales, async (req, res) => {
     var id = req.session.user_id;
     var userType = req.session.user_type;
+    var user_name = req.session.user_name;
     var details = await database.getUserDetails(id);
-    res.render('partials/sales/account', { title: name, page: 'Account', details: details, userType, script: scriptPaths.account });
+    res.render('partials/sales/account', { title: name, page: 'Account', details: details, userType, script: scriptPaths.account, user_name });
 });
 
 router.get('/products', authMiddleware.isAuthSales, async (req, res) => {
@@ -37,17 +38,22 @@ router.get('/products', authMiddleware.isAuthSales, async (req, res) => {
 router.get('/orders', authMiddleware.isAuthSales, async (req, res) => {
     var orders = await database.getTempCustOrders();
     var userType = req.session.user_type;
+    var user_name = req.session.user_name;
     var result = await database.getOrderItemsDetails(orders);
-    res.render('partials/sales/order', { title: name, page: 'Order', items: result, userType, script: '' });
+    res.render('partials/sales/order', { title: name, page: 'Order', items: result, userType, user_name, script: '' });
 });
 
 
-// * ------------ POST REQUESTS -------------------------------------
+// * ------------------------------------- POST REQUESTS -------------------------------------
 
-router.post('/orders', authMiddleware.isAuthSales, async (req, res) => {
+router.post('/cart', authMiddleware.isAuthSales, async (req, res) => {
     var params = req.body;
     console.log(params);
     var createOrder = await database.addTempItem(params.itemCode, params.quantity);
+    res.sendStatus(200);
+});
+
+router.post('/orders', authMiddleware.isAuthSales, async (req, res) => {
     res.sendStatus(200);
 });
 

@@ -59,10 +59,11 @@ const userLogin = async function logginUser(username, password) {
     }
 }
 
-const serializeUser = function serializeUserSession(req, userID, type) {
+const serializeUser = function serializeUserSession(req, userID, type, username) {
     req.session.user_id = userID;
     req.session.user_type = type;
     req.session.signed_in = true;
+    req.session.user_name = username;
 }
 
 const deserializeUser = function deserializeUserSession(req) {
@@ -70,8 +71,3 @@ const deserializeUser = function deserializeUserSession(req) {
 }
 
 module.exports = { login: userLogin, serializeUser: serializeUser, deserializeUser: deserializeUser, createNewUser: addNewUser };
-
-// addNewUser('Yashoda', '1234@', 'yashoda@gmail.com', 'stockM');
-// addNewUser('Joy', '5678#', 'joy@gmail.com', 'manager');
-// addNewUser('Chimitha', "Booom", "pereraroshika98@gmail.com", "salesman");
-// Roshika Hello

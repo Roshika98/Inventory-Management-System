@@ -1,3 +1,7 @@
+var socket = null;
+
+const username = document.getElementById('sidenav-main').getAttribute('data-username');
+
 notifications = {
     misc: {
         navbar_menu_visible: 0
@@ -75,13 +79,19 @@ function notifyWarning() {
     }
 }
 
-try {
-    var socket = io.connect('http://localhost:3000');
-    socket.on('connect', (data) => {
-        socket.emit('register', "user");
-    });
-} catch (error) {
 
+socket = io.connect('http://localhost:3000');
+socket.on('connect', (data) => {
+    // alert('connected');
+    socket.emit('register', username);
+});
+socket.on('updateOnOrder', (data) => {
+    alert(data);
+});
+
+
+function NotifyCashier() {
+    socket.emit('order', 'Emilio79');
 }
 
 

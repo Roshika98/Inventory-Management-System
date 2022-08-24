@@ -21,7 +21,7 @@ router.post('/login', async (req, res) => {
     var { username, pass } = req.body;
     const result = await authentication.login(username, pass);
     if (result.isValid) {
-        authentication.serializeUser(req, result.id, result.type);
+        authentication.serializeUser(req, result.id, result.type, username);
         req.flash('success', '      Logged in successfully!');
         if (result.type === 'Salesman') {
             res.redirect('/NegomboHardware/sales/home');

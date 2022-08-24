@@ -78,11 +78,12 @@ server.listen(port, () => {
 
 
 io.on('connection', (client) => {
-    console.log("Client connected.....");
     client.on('register', (data) => {
-        // console.log(client.id);
-        ioUsers.addOrUpdateUser(data, client.id);
-        // console.log(ioUsers.retrieveSocketId(data));
+        console.log(data + " registered..");
+        client.join(data);
+    });
+    client.on('order', (data) => {
+        client.in(data).emit('updateOnOrder', 'order received');
     });
 
 });
