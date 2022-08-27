@@ -6,6 +6,16 @@
 
 
 <div class="row">
+    <% if (items.length==0) { %>
+    <div class="col-md-5 mt-4">
+        <div class="card mb-4">
+            <div class="card-header pb-0 px-3">
+                <h6 class="mb-0">No orders available</h6>
+            </div>
+            <div class="card-footer pb-0 px-3"></div>
+        </div>
+    </div>
+    <% } else { %>
     <div class="col-md-7 mt-4">
         <div class="card">
             <div class="card-header pb-0 px-3">
@@ -25,10 +35,13 @@
                                     class="text-dark ms-sm-2 font-weight-bold"><%= items[i].item_quantity %></span></span>
                         </div>
                         <div class="ms-auto text-end">
-                            <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i
-                                    class="material-icons text-sm me-2">delete</i>Delete</a>
-                            <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
-                                    class="material-icons text-sm me-2">edit</i>Edit</a>
+                            <button class="btn btn-link text-danger text-gradient px-3 mb-0 deleteCartItem"
+                                type="button" data-itemID="<%= items[i].item_code %>"><i
+                                    class="material-icons text-sm me-2">delete</i>Delete</button>
+                            <button class="btn btn-link text-dark px-3 mb-0 editCartItem"
+                                data-itemID="<%= items[i].item_code %>"
+                                data-itemQuantity="<%= items[i].item_quantity %>"><i
+                                    class="material-icons text-sm me-2">edit</i>Edit</button>
                         </div>
                     </li>
                     <% } %>
@@ -37,7 +50,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="col-md-5 mt-4">
         <div class="card mb-4">
@@ -96,12 +108,13 @@
                     <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                         <!-- <a href="http://localhost:3000/NegomboHardware/logout" type="button"
                             class="btn btn-primary">Confirm Order</a> -->
-                        <button class="btn btn-primary" onclick="NotifyCashier()">Confirm order</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
+                        <button class="btn btn-primary" id="order_confirm">Confirm order</button>
+                        <button type="button" class="btn btn-secondary" id="discardOrder" type="button">Discard</button>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
+    <% } %>
 
 </div>

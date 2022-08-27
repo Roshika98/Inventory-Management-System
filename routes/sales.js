@@ -5,8 +5,9 @@ const database = require('../database/database');
 const name = 'Sales';
 
 const scriptPaths = {
-    homepage: '/core/js/controllers/salesController.js',
-    account: ''
+    homepage: '/core/js/controllers/sales/salesController.js',
+    account: '',
+    order: '/core/js/controllers/sales/orderController.js'
 }
 
 router.get('', authMiddleware.isAuthSales, (req, res) => {
@@ -40,7 +41,7 @@ router.get('/orders', authMiddleware.isAuthSales, async (req, res) => {
     var userType = req.session.user_type;
     var user_name = req.session.user_name;
     var result = await database.getOrderItemsDetails(orders);
-    res.render('partials/sales/order', { title: name, page: 'Order', items: result, userType, user_name, script: '' });
+    res.render('partials/sales/order', { title: name, page: 'Order', items: result, userType, user_name, script: scriptPaths.order });
 });
 
 
@@ -54,7 +55,21 @@ router.post('/cart', authMiddleware.isAuthSales, async (req, res) => {
 });
 
 router.post('/orders', authMiddleware.isAuthSales, async (req, res) => {
-    res.sendStatus(200);
+    var personell = await database.getOrderHandlingPersonell('Accountant', 'StockHandler');
+    res.send(personell);
+});
+
+// *------------------------------------- DELETE REQUESTS ------------------------------------
+
+router.delete('/orders/:id', authMiddleware.isAuthSales, async (req, res) => {
+    var id = req.params.id;
+    var result = await database.deleteCartItem(id);
+    res.send(result);
+});
+
+router.delete('/orders', authMiddleware.isAuthSales, async (req, res) => {
+    var result = await database.deleteCurrCart();
+    res.send(result);
 });
 
 module.exports = router;

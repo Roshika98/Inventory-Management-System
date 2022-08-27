@@ -1,4 +1,5 @@
 const express = require('express');
+const database = require('../database/database');
 const router = express.Router();
 const authentication = require('../security/authentication');
 
@@ -11,7 +12,8 @@ router.get('/login', (req, res) => {
     res.render('default/loginNew', { layout: false });
 });
 
-router.get('/logout', (req, res) => {
+router.get('/logout', async (req, res) => {
+    const result = await database.updateUserStatus(req.session.user_id, false);
     authentication.deserializeUser(req);
     res.redirect('/NegomboHardware/login');
 });
@@ -22,6 +24,7 @@ router.post('/login', async (req, res) => {
     const result = await authentication.login(username, pass);
     if (result.isValid) {
         authentication.serializeUser(req, result.id, result.type, username);
+        const status = await database.updateUserStatus(req.session.user_id, true);
         req.flash('success', '      Logged in successfully!');
         if (result.type === 'Salesman') {
             res.redirect('/NegomboHardware/sales/home');
@@ -36,6 +39,7 @@ router.post('/login', async (req, res) => {
         req.flash('error', '    username or password is incorrect!');
         res.redirect('/NegomboHardware/login');
     }
+
 });
 
 

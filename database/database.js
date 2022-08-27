@@ -63,13 +63,45 @@ class database {
         return result;
     }
 
+    async getOrderHandlingPersonell(type1, type2) {
+        var q = 'select user_name from users where type=? && status=true';
+        var result1 = await this.connection.execute(q, [type1]);
+        var result2 = await this.connection.execute(q, [type2]);
+        var result = [result1[0][0], result2[0][0]];
+        console.log(result);
+        return result;
+    }
 
 
-    // * ------------------ CREATE OPERATIONS ---------------------------------
+
+    // * ------------------ -- CREATE OPERATIONS ---------------------------------
 
     async addTempItem(itemCode, quantity) {
         var q = 'insert into cust_orders_temp(item_no,quantity) values(?,?)';
         const result = await this.connection.execute(q, [itemCode, quantity]);
+        return result[0];
+    }
+
+
+    // *----------------------- UPDATE OPERATIONS --------------------------------
+
+    async updateUserStatus(id, status) {
+        var q = 'update users set status=? where user_id=?';
+        const result = await this.connection.execute(q, [status, id]);
+        return result[0];
+    }
+
+    // *----------------------- DELETE OPERATIONS --------------------------------
+
+    async deleteCartItem(id) {
+        var q = 'delete from cust_orders_temp where item_no=?';
+        const result = await this.connection.execute(q, [id]);
+        return result[0];
+    }
+
+    async deleteCurrCart() {
+        var q = 'delete from cust_orders_temp';
+        const result = await this.connection.query(q);
         return result[0];
     }
 
