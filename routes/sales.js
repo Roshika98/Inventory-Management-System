@@ -37,7 +37,7 @@ router.get('/products', authMiddleware.isAuthSales, async (req, res) => {
 });
 
 router.get('/orders', authMiddleware.isAuthSales, async (req, res) => {
-    var orders = await database.getTempCustOrders();
+    var orders = await database.getCartDetails();
     var userType = req.session.user_type;
     var user_name = req.session.user_name;
     var result = await database.getOrderItemsDetails(orders);
@@ -50,11 +50,12 @@ router.get('/orders', authMiddleware.isAuthSales, async (req, res) => {
 router.post('/cart', authMiddleware.isAuthSales, async (req, res) => {
     var params = req.body;
     console.log(params);
-    var createOrder = await database.addTempItem(params.itemCode, params.quantity);
+    var createOrder = await database.addItemToCart(params.itemCode, params.quantity);
     res.sendStatus(200);
 });
 
 router.post('/orders', authMiddleware.isAuthSales, async (req, res) => {
+    var createOrder = await database.createTempOrder();
     var personell = await database.getOrderHandlingPersonell('Accountant', 'StockHandler');
     res.send(personell);
 });

@@ -83,8 +83,10 @@ io.on('connection', (client) => {
         client.join(data);
     });
     client.on('order', (data) => {
-        client.in(data.accounts).emit('updateOnOrder', 'order received');
-        client.in(data.stocks).emit('releaseItems', 'Fetch items');
+        if (data.accountant)
+            client.in(data.accountant).emit('updateOnOrder', 'order received');
+        if (data.stocks)
+            client.in(data.stocks).emit('releaseItems', 'Fetch items');
     });
 
 });

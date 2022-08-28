@@ -1,4 +1,5 @@
 const mysql = require('mysql2/promise');
+const { v4: uuidv4 } = require('uuid');
 
 class database {
     constructor() {
@@ -39,8 +40,8 @@ class database {
         return result[0][0];
     }
 
-    async getTempCustOrders() {
-        var q = 'select * from cust_orders_temp';
+    async getCartDetails() {
+        var q = 'select * from cart';
         const result = await this.connection.query(q);
         return result[0];
     }
@@ -76,12 +77,23 @@ class database {
 
     // * ------------------ -- CREATE OPERATIONS ---------------------------------
 
-    async addTempItem(itemCode, quantity) {
-        var q = 'insert into cust_orders_temp(item_no,quantity) values(?,?)';
+    async addItemToCart(itemCode, quantity) {
+        var q = 'insert into cart(item_no,quantity) values(?,?)';
         const result = await this.connection.execute(q, [itemCode, quantity]);
         return result[0];
     }
 
+
+    async createTempOrder() {
+        var id = uuidv4();
+        var q = 'insert into temp_order(orderID,prodID,quantity) values(?,?,?)';
+        var cartItems = await this.getCartDetails();
+        for (var i = 0; i < cartItems.length; i++) {
+            var result = await this.connection.execute(q, [id, cartItems[i].item_no, cartItems[i].quantity]);
+        }
+        var res = await this.deleteCurrCart();
+        return res[0];
+    }
 
     // *----------------------- UPDATE OPERATIONS --------------------------------
 
@@ -94,13 +106,13 @@ class database {
     // *----------------------- DELETE OPERATIONS --------------------------------
 
     async deleteCartItem(id) {
-        var q = 'delete from cust_orders_temp where item_no=?';
+        var q = 'delete from cart where item_no=?';
         const result = await this.connection.execute(q, [id]);
         return result[0];
     }
 
     async deleteCurrCart() {
-        var q = 'delete from cust_orders_temp';
+        var q = 'delete from cart';
         const result = await this.connection.query(q);
         return result[0];
     }

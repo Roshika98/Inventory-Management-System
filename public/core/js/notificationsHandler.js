@@ -90,8 +90,8 @@ socket.on('updateOnOrder', (data) => {
 });
 
 
-function NotifyCashier() {
-    socket.emit('order', 'Emilio79');
+var triggerOrderNotification = function NotifyOrder(data) {
+    socket.emit('order', { accountant: data.accountant, stockHandler: data.stocks });
 }
 
 

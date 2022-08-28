@@ -338,8 +338,8 @@
         </main>
 
 
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal logout fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -352,6 +352,30 @@
                         <a href="http://localhost:3000/NegomboHardware/logout" type="button"
                             class="btn btn-primary">Yes</a>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <button data-bs-toggle="modal" data-bs-target="#orderModal" style="display: none;"
+            id="acknowledgeOrder"></button>
+
+
+        <div class="modal logout fade" id="orderModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Order has been made</h5>
+                        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="submit" class="btn btn-primary"
+                        onclick="location.href='http://localhost:3000/NegomboHardware/logout'">Yes</button> -->
+                        <a href="http://localhost:3000/NegomboHardware/sales/home" type="button"
+                            class="btn btn-primary">Okay</a>
+                        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button> -->
                     </div>
                 </div>
             </div>
