@@ -40,7 +40,7 @@ router.get('/orders', authMiddleware.isAuthSales, async (req, res) => {
     var orders = await database.getCartDetails();
     var userType = req.session.user_type;
     var user_name = req.session.user_name;
-    var result = await database.getOrderItemsDetails(orders);
+    var result = await database.getCartItemsDetails(orders);
     res.render('partials/sales/order', { title: name, page: 'Order', items: result, userType, user_name, script: scriptPaths.order });
 });
 

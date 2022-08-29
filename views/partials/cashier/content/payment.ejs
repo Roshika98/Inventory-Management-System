@@ -1,0 +1,71 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="staticBackdropLabel">Process Payment</h5>
+</div>
+<div class="modal-body">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header pb-0 px-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="mb-0">Order ID : <span
+                                class="text-secondary text-xs"><%= orderID.slice(0,13) %>...</span>
+                        </h6>
+                    </div>
+                    <div class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
+                        <i class="material-icons me-2 text-lg">date_range</i>
+                        <% var today=new Date() %>
+                        <% var date= today.getFullYear()+" - "+(today.getMonth()+1)+" - "+today.getDate() %>
+                        <small><%= date %></small>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-4 p-3">
+                <% var grandTot=0 %>
+                <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Products</h6>
+                <ul class="list-group">
+                    <% for( let i = 0; i < items.length; i++ ) { %>
+                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                        <div class="d-flex align-items-center">
+                            <button
+                                class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
+                                    class="material-icons text-lg">expand_less</i></button>
+                            <div class="d-flex flex-column">
+                                <h6 class="mb-1 text-dark text-sm"><%= items[i].item_name %></h6>
+                                <span class="text-xs">Quantity: <%= items[i].item_quantity %></span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                            + Rs <% var price=parseInt(items[i].item_quantity) * parseFloat(items[i].item_price) %>
+                            <% grandTot+=price %>
+                            <%= price %>
+                        </div>
+                    </li>
+                    <% } %>
+
+                </ul>
+                <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Total amount to be paid</h6>
+                <ul class="list-group">
+                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                        <div class="d-flex align-items-center">
+                            <button
+                                class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
+                                    class="material-icons text-lg">expand_less</i></button>
+                            <div class="d-flex flex-column">
+                                <h6 class="mb-1 text-dark text-sm">Payment</h6>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                            Rs <%= grandTot %>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="submit">Accept</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="confirmed"
+        style="display: none;"></button>
+</div>

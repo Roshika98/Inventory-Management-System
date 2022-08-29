@@ -46,7 +46,7 @@ class database {
         return result[0];
     }
 
-    async getOrderItemsDetails(order) {
+    async getCartItemsDetails(order) {
         var result = [];
         var q = 'select name,unit_price from products where item_code=?';
         for (let i = 0; i < order.length; i++) {
@@ -58,11 +58,56 @@ class database {
                 item_price: r[0][0].unit_price,
                 item_quantity: element.quantity
             };
-            // console.log(obj);
             result.push(obj);
         }
         return result;
     }
+
+    async getTempOrderDetails() {
+        var result = [];
+        var q1 = 'select orderID from temp_order group by orderID';
+        var orders = await this.connection.query(q1);
+        var q2 = 'select prodID,quantity from temp_order where orderID=?';
+        var q3 = 'select unit_price from products where item_code=?'
+        for (let i = 0; i < orders[0].length; i++) {
+            const element = orders[0][i];
+            var orderItems = await this.connection.execute(q2, [element.orderID]);
+            var billTotal = 0;
+            for (let j = 0; j < orderItems[0].length; j++) {
+                const element2 = orderItems[0][j];
+                var price = await this.connection.execute(q3, [element2.prodID]);
+                billTotal += parseFloat(price[0][0].unit_price) * parseFloat(element2.quantity);
+            }
+            var obj = {
+                orderID: element.orderID,
+                itemCount: orderItems[0].length,
+                billTot: billTotal
+            }
+            result.push(obj);
+        }
+        console.log(result);
+        return result;
+    }
+
+    async getTempOrder(id) {
+        var q = 'select prodID,quantity from temp_order where orderID=?';
+        var items = await this.connection.execute(q, [id]);
+        var result = [];
+        var q = 'select name,unit_price from products where item_code=?';
+        for (let i = 0; i < items[0].length; i++) {
+            const element = items[0][i];
+            var r = await this.connection.execute(q, [element.prodID]);
+            var obj = {
+                item_code: element.prodID,
+                item_name: r[0][0].name,
+                item_price: r[0][0].unit_price,
+                item_quantity: element.quantity
+            };
+            result.push(obj);
+        }
+        return result;
+    }
+
 
     async getOrderHandlingPersonell(type1, type2) {
         var q = 'select user_name from users where type=? && status=true';
@@ -75,7 +120,7 @@ class database {
 
 
 
-    // * ------------------ -- CREATE OPERATIONS ---------------------------------
+    // * --------------------- CREATE OPERATIONS ---------------------------------
 
     async addItemToCart(itemCode, quantity) {
         var q = 'insert into cart(item_no,quantity) values(?,?)';
