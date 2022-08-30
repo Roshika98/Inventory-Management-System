@@ -3,8 +3,20 @@
         <h3 class="text-white text-capitalize ps-3">Current Orders</h3>
     </div>
 </div>
+<% if (orderDetails.length==0) { %>
+<div class="row">
+    <div class="col-md-10 mt-4">
+        <div class="card mb-4 card-center">
+            <div class="card-header pb-0 px-3">
+                <h6 class="mb-0">No Pending Customer Orders Available</h6>
+            </div>
+            <div class="card-footer">
 
-
+            </div>
+        </div>
+    </div>
+</div>
+<% } else { %>
 <div class="row">
     <div class="col-md-10 mt-4">
         <div class="card mb-4 card-center">
@@ -42,13 +54,16 @@
 
 </div>
 
+<% } %>
 
 
 
 
 
 
-<button data-bs-toggle="modal" data-bs-target="#processPayment" style="display: none;" id="acknowledgePayment"></button>
+
+
+<button data-bs-toggle="modal" data-bs-target="#processPayment" style="display: none;" id="togglePaymentModal"></button>
 
 
 <div class="modal fade" id="processPayment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"

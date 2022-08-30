@@ -85,7 +85,7 @@ class database {
             }
             result.push(obj);
         }
-        console.log(result);
+        // console.log(result);
         return result;
     }
 
@@ -114,7 +114,7 @@ class database {
         var result1 = await this.connection.execute(q, [type1]);
         var result2 = await this.connection.execute(q, [type2]);
         var result = [result1[0][0], result2[0][0]];
-        console.log(result);
+        // console.log(result);
         return result;
     }
 
@@ -140,6 +140,23 @@ class database {
         return res[0];
     }
 
+    async createSalesOrder(id) {
+        var type = 'sales';
+        var total = 0;
+        var orderItems = await this.getTempOrder(id);
+        var q1 = 'insert into orderdetails(order_no,type,order_date,sub_total) values (?,?,?,?)';
+        var q2 = 'insert into order_product(order_id,product_code,quantity) values (?,?,?)';
+        for (let i = 0; i < orderItems.length; i++) {
+            const element = orderItems[i];
+            var res1 = await this.connection.execute(q2, [id, element.item_code, element.item_quantity]);
+            total += parseFloat(element.item_price) * parseFloat(element.item_quantity);
+        }
+        var date = this.#getCurrDateTime();
+        var res2 = await this.connection.execute(q1, [id, type, date, total]);
+        var deleteItem = await this.deleteTempOrder(id);
+        return res2[0];
+    }
+
     // *----------------------- UPDATE OPERATIONS --------------------------------
 
     async updateUserStatus(id, status) {
@@ -160,6 +177,27 @@ class database {
         var q = 'delete from cart';
         const result = await this.connection.query(q);
         return result[0];
+    }
+
+    async deleteTempOrder(id) {
+        var q = 'delete from temp_order where orderID=?';
+        const result = await this.connection.execute(q, [id]);
+        return result[0];
+    }
+
+    // * ------------------------- UTILITY FUNCTIONS ----------------------------------
+
+
+    #getCurrDateTime() {
+        var t = new Date();
+        var YYYY = t.getFullYear();
+        var MM = ((t.getMonth() + 1 < 10) ? '0' : '') + (t.getMonth() + 1);
+        var DD = ((t.getDate() < 10) ? '0' : '') + t.getDate();
+        var HH = ((t.getHours() < 10) ? '0' : '') + t.getHours();
+        var mm = ((t.getMinutes() < 10) ? '0' : '') + t.getMinutes();
+        var ss = ((t.getSeconds() < 10) ? '0' : '') + t.getSeconds();
+        var time_of_call = YYYY + '-' + MM + '-' + DD + ' ' + HH + ':' + mm + ':' + ss;
+        return time_of_call;
     }
 
 }

@@ -82,11 +82,14 @@ function notifyWarning() {
 
 socket = io.connect('http://localhost:3000');
 socket.on('connect', (data) => {
-    // alert('connected');
     socket.emit('register', username);
 });
 socket.on('updateOnOrder', (data) => {
-    alert(data);
+    console.log("Event acquired");
+    onOrderReceive();
+});
+socket.on('releaseItems', (data) => {
+    onOrder.stocks;
 });
 
 

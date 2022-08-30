@@ -32,7 +32,7 @@ router.get('/account', authMiddleware.isAuthSales, async (req, res) => {
 router.get('/products', authMiddleware.isAuthSales, async (req, res) => {
     var params = req.query.product;
     var result = await database.searchForProducts(params);
-    console.log(result);
+    // console.log(result);
     res.render('partials/sales/content/searchedProds', { layout: false, products: result });
 });
 

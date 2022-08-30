@@ -33,6 +33,14 @@ router.get('/billing/:id', authMiddleware.isAuthCashier, async (req, res) => {
 });
 
 
+// *------------------------------- POST REQUESTS ----------------------------------------------
+
+router.post('/billing', authMiddleware.isAuthCashier, async (req, res) => {
+    var params = req.body;
+    var result = await database.createSalesOrder(params.orderID);
+    res.sendStatus(200);
+});
+
 
 
 module.exports = router;
