@@ -6,8 +6,8 @@ const name = 'Cashier';
 
 const scriptPaths = {
     homepage: '/core/js/controllers/accounts/paymentController.js',
-    account: '',
-    order: ''
+    account: '/core/js/controllers/accounts/accountController.js',
+    order: '/core/js/controllers/accounts/processedOrderController.js'
 }
 
 
@@ -23,7 +23,9 @@ router.get('/home', authMiddleware.isAuthCashier, async (req, res) => {
 
 router.get('/billing', authMiddleware.isAuthCashier, async (req, res) => {
     var { userType, user_name } = getUserDetails(req);
-    res.render('partials/cashier/bill', { title: name, page: 'dashboard', userType, script: '', user_name });
+    var orders = await database.getProcessedOrders('sales');
+    console.log(orders);
+    res.render('partials/cashier/processedOrders', { title: name, page: 'dashboard', orders, userType, script: scriptPaths.order, user_name });
 });
 
 router.get('/billing/:id', authMiddleware.isAuthCashier, async (req, res) => {
@@ -32,6 +34,12 @@ router.get('/billing/:id', authMiddleware.isAuthCashier, async (req, res) => {
     res.render('partials/cashier/content/payment', { layout: false, items, orderID: id });
 });
 
+router.get('/account', authMiddleware.isAuthCashier, async (req, res) => {
+    var id = req.session.user_id;
+    var { userType, user_name } = getUserDetails(req);
+    var details = await database.getUserDetails(id);
+    res.render('partials/sales/account', { title: name, page: 'Account', details: details, userType, script: scriptPaths.account, user_name });
+});
 
 // *------------------------------- POST REQUESTS ----------------------------------------------
 

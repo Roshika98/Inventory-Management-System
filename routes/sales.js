@@ -6,7 +6,7 @@ const name = 'Sales';
 
 const scriptPaths = {
     homepage: '/core/js/controllers/sales/salesController.js',
-    account: '',
+    account: '/core/js/controllers/sales/accountController.js',
     order: '/core/js/controllers/sales/orderController.js'
 }
 
@@ -23,8 +23,7 @@ router.get('/home', authMiddleware.isAuthSales, async (req, res) => {
 
 router.get('/account', authMiddleware.isAuthSales, async (req, res) => {
     var id = req.session.user_id;
-    var userType = req.session.user_type;
-    var user_name = req.session.user_name;
+    var { userType, user_name } = getUserDetails(req);
     var details = await database.getUserDetails(id);
     res.render('partials/sales/account', { title: name, page: 'Account', details: details, userType, script: scriptPaths.account, user_name });
 });
@@ -38,8 +37,7 @@ router.get('/products', authMiddleware.isAuthSales, async (req, res) => {
 
 router.get('/orders', authMiddleware.isAuthSales, async (req, res) => {
     var orders = await database.getCartDetails();
-    var userType = req.session.user_type;
-    var user_name = req.session.user_name;
+    var { userType, user_name } = getUserDetails(req);
     var result = await database.getCartItemsDetails(orders);
     res.render('partials/sales/order', { title: name, page: 'Order', items: result, userType, user_name, script: scriptPaths.order });
 });
@@ -74,3 +72,9 @@ router.delete('/orders', authMiddleware.isAuthSales, async (req, res) => {
 });
 
 module.exports = router;
+
+function getUserDetails(req) {
+    var userType = req.session.user_type;
+    var user_name = req.session.user_name;
+    return { userType, user_name };
+}

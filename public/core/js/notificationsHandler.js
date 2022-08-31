@@ -80,6 +80,23 @@ function notifyWarning() {
 }
 
 
+var displayOrderNotification = function notifyOrderInfo(msg) {
+    try {
+        var opt = {
+            from: 'top',
+            align: 'center',
+            colorTheme: 'info',
+            message: msg,
+            timer: 800,
+            icon: 'fa fa-bell'
+        };
+        notifications.showNotification(opt);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 socket = io.connect('http://localhost:3000');
 socket.on('connect', (data) => {
     socket.emit('register', username);

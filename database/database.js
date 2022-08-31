@@ -119,6 +119,17 @@ class database {
     }
 
 
+    async getProcessedOrders(type) {
+        var q = '';
+        if (type == '') {
+
+        } else
+            q = 'select order_no,order_date,sub_total from orderdetails where type=?';
+        var result = await this.connection.execute(q, [type]);
+        return result[0];
+    }
+
+
 
     // * --------------------- CREATE OPERATIONS ---------------------------------
 

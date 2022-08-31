@@ -1,3 +1,8 @@
+const pageIndicator = document.getElementById('homepage');
+pageIndicator.classList.add('active');
+pageIndicator.classList.add('bg-gradient-success');
+
+
 const paymentModalContent = document.getElementById('modalContentPay');
 const paymentModal = document.getElementById('processPayment');
 const toggleModal = document.getElementById('togglePaymentModal');

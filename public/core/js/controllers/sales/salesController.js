@@ -1,3 +1,6 @@
+const pageIndicator = document.getElementById('homePage');
+pageIndicator.classList.add('active');
+pageIndicator.classList.add('bg-gradient-success');
 
 
 const searchTxt = document.getElementById('searchTxt');

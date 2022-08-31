@@ -1,3 +1,8 @@
+const pageIndicator = document.getElementById('orderPage');
+pageIndicator.classList.add('active');
+pageIndicator.classList.add('bg-gradient-success');
+
+
 
 const confirmOrder = document.getElementById('order_confirm');
 const discardBtn = document.getElementById('discardOrder');
