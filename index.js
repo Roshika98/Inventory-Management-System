@@ -83,10 +83,12 @@ io.on('connection', (client) => {
         client.join(data);
     });
     client.on('order', (data) => {
+        // console.log(data);
         if (data.accountant)
             client.in(data.accountant).emit('updateOnOrder', 'order received');
-        if (data.stocks)
-            client.in(data.stocks).emit('releaseItems', 'Fetch items');
+        if (data.stockHandler) {
+            console.log('Stock Handler available :' + data.stockHandler);
+            client.in(data.stockHandler).emit('releaseItems', 'Fetch items');
+        }
     });
-
 });

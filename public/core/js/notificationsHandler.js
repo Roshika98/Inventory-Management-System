@@ -106,7 +106,8 @@ socket.on('updateOnOrder', (data) => {
     onOrderReceive();
 });
 socket.on('releaseItems', (data) => {
-    onOrder.stocks;
+    console.log('Stock release event acquired');
+    onStockRequest();
 });
 
 

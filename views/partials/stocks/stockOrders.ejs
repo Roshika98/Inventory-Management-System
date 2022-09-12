@@ -1,0 +1,85 @@
+<% if (orders.length==0) { %>
+<div class="row">
+    <div class="col-md-10 mt-4">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3">
+                        <h4 class="text-white text-capitalize ps-3">Processed Supplier Orders</h4>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                    <h6 class="mb-1"> No Supplier Orders Available</h6>
+                </div>
+                <div class="card-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% } else { %>
+<div class="row">
+    <div class="col-12">
+        <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Processed Supplier Orders</h6>
+                </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Order ID
+                                </th>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Order Date</th>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Amount paid</th>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for( let i = 0; i < orders.length; i++ ) { %>
+                            <% var element=orders[i] %>
+                            <tr>
+                                <td class="align-middle text-center">
+                                    <h6 class="mb-0 text-sm"><%= element.order_no %></h6>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <span class="text-secondary text-xs font-weight-bold">
+                                        <% var t=element.order_date %>
+                                        <% var d=new Date(t) %>
+                                        <%= d.toDateString()+' '+d.toLocaleTimeString() %>
+                                    </span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <p class="text-s text-success font-weight-bold mb-0">Rs <%= element.sub_total %>
+                                    </p>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                        data-toggle="tooltip" data-original-title="Edit user">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+                            <% } %>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<% } %>

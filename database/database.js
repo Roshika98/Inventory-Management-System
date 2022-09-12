@@ -89,6 +89,25 @@ class database {
         return result;
     }
 
+    async getTempOrderStockDetails() {
+        var result = [];
+        var q1 = 'select orderID,orderTime from temp_stock group by orderID';
+        var stocks = await this.connection.query(q1);
+        var q2 = 'select count(prodID) as itemCount from temp_stock where orderID=?';
+        for (let i = 0; i < stocks[0].length; i++) {
+            var element = stocks[0][i];
+            var count = await this.connection.execute(q2, [element.orderID]);
+            var obj = {
+                orderID: element.orderID,
+                itemCount: count[0][0].itemCount,
+                time: element.orderTime
+            }
+            result.push(obj);
+        }
+        console.log(result);
+        return result;
+    }
+
     async getTempOrder(id) {
         var q = 'select prodID,quantity from temp_order where orderID=?';
         var items = await this.connection.execute(q, [id]);
@@ -114,7 +133,7 @@ class database {
         var result1 = await this.connection.execute(q, [type1]);
         var result2 = await this.connection.execute(q, [type2]);
         var result = [result1[0][0], result2[0][0]];
-        // console.log(result);
+        console.log(result);
         return result;
     }
 
@@ -142,10 +161,13 @@ class database {
 
     async createTempOrder() {
         var id = uuidv4();
-        var q = 'insert into temp_order(orderID,prodID,quantity) values(?,?,?)';
+        var q = 'insert into temp_order(orderID,prodID,quantity,orderTime) values(?,?,?,?)';
+        var q2 = 'insert into temp_stock(orderID,prodID,quantity,orderTime) values(?,?,?,?)';
+        var dateTime = this.#getCurrDateTime();
         var cartItems = await this.getCartDetails();
         for (var i = 0; i < cartItems.length; i++) {
-            var result = await this.connection.execute(q, [id, cartItems[i].item_no, cartItems[i].quantity]);
+            var result = await this.connection.execute(q, [id, cartItems[i].item_no, cartItems[i].quantity, dateTime]);
+            var res2 = await this.connection.execute(q2, [id, cartItems[i].item_no, cartItems[i].quantity, dateTime]);
         }
         var res = await this.deleteCurrCart();
         return res[0];
@@ -160,6 +182,24 @@ class database {
         for (let i = 0; i < orderItems.length; i++) {
             const element = orderItems[i];
             var res1 = await this.connection.execute(q2, [id, element.item_code, element.item_quantity]);
+            total += parseFloat(element.item_price) * parseFloat(element.item_quantity);
+        }
+        var date = this.#getCurrDateTime();
+        var res2 = await this.connection.execute(q1, [id, type, date, total]);
+        var deleteItem = await this.deleteTempOrder(id);
+        return res2[0];
+    }
+
+    // ! Requires modification when invetory orders are implemented---------------
+    async createInventoryOrder(id) {
+        var type = 'inventory';
+        var total = 0;
+        var orderItems = await this.getTempOrder(id);
+        var q1 = 'insert into orderdetails(order_no,type,order_date,sub_total) values (?,?,?,?)';
+        var q2 = 'insert into order_supplier(order_id,supplier_id,product_id,quantity) values (?,?,?,?)';
+        for (let i = 0; i < orderItems.length; i++) {
+            const element = orderItems[i];
+            var res1 = await this.connection.execute(q2, [id, element.supplierID, element.item_code, element.item_quantity]);
             total += parseFloat(element.item_price) * parseFloat(element.item_quantity);
         }
         var date = this.#getCurrDateTime();

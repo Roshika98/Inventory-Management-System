@@ -1,74 +1,76 @@
 <div class="row">
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
-            <div class="card-header p-3 pt-2">
-                <div
-                    class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                    <i class="material-icons opacity-10">weekend</i>
-                </div>
-                <div class="text-end pt-1">
-                    <p class="text-sm mb-0 text-capitalize">Today's Money</p>
-                    <h4 class="mb-0">$53k</h4>
-                </div>
-            </div>
-            <hr class="dark horizontal my-0">
-            <div class="card-footer p-3">
-                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than lask week</p>
-            </div>
-        </div>
+    <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3">
+        <h3 class="text-white text-capitalize ps-3">Current Inventory Item Requests</h3>
     </div>
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
-            <div class="card-header p-3 pt-2">
-                <div
-                    class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                    <i class="material-icons opacity-10">person</i>
-                </div>
-                <div class="text-end pt-1">
-                    <p class="text-sm mb-0 text-capitalize">Today's Users</p>
-                    <h4 class="mb-0">2,300</h4>
-                </div>
+</div>
+<% if (orderDetails.length==0) { %>
+<div class="row">
+    <div class="col-md-10 mt-4">
+        <div class="card mb-4 card-center">
+            <div class="card-header pb-0 px-3">
+                <h6 class="mb-0">No Pending Requests Available</h6>
             </div>
-            <hr class="dark horizontal my-0">
-            <div class="card-footer p-3">
-                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than lask month</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
-            <div class="card-header p-3 pt-2">
-                <div
-                    class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                    <i class="material-icons opacity-10">person</i>
-                </div>
-                <div class="text-end pt-1">
-                    <p class="text-sm mb-0 text-capitalize">New Clients</p>
-                    <h4 class="mb-0">3,462</h4>
-                </div>
-            </div>
-            <hr class="dark horizontal my-0">
-            <div class="card-footer p-3">
-                <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than yesterday</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-sm-6">
-        <div class="card">
-            <div class="card-header p-3 pt-2">
-                <div
-                    class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                    <i class="material-icons opacity-10">weekend</i>
-                </div>
-                <div class="text-end pt-1">
-                    <p class="text-sm mb-0 text-capitalize">Sales</p>
-                    <h4 class="mb-0">$103,430</h4>
-                </div>
-            </div>
-            <hr class="dark horizontal my-0">
-            <div class="card-footer p-3">
-                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5% </span>than yesterday</p>
+            <div class="card-footer">
+
             </div>
         </div>
     </div>
 </div>
+<% } else { %>
+<div class="row">
+    <div class="col-md-10 mt-4">
+        <div class="card mb-4 card-center">
+            <div class="card-header pb-0 px-3">
+                <h6 class="mb-0">Pending Orders</h6>
+            </div>
+            <div class="card-body pt-4 p-3">
+                <ul class="list-group">
+                    <% for( let i = 0; i < orderDetails.length; i++ ) { %>
+                    <% var element=orderDetails[i] %>
+                    <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                        <div class="d-flex flex-column">
+                            <h6 class="mb-3 text-sm"><%= element.orderID %> </h6>
+                            <span class="mb-2 text-xs">Item count: <span
+                                    class="text-dark font-weight-bold ms-sm-2"><%= element.itemCount %></span></span>
+                            <span class="mb-2 text-xs">Time of Order: <span
+                                    class="text-dark font-weight-bold ms-sm-2"><%= element.time %></span></span>
+                        </div>
+                        <div class="ms-auto text-end">
+                            <button class="btn btn-link text-danger text-gradient px-3 mb-0 deleteCartItem"
+                                type="button" data-itemID="<%= element.orderID %>"><i
+                                    class="material-icons text-sm me-2">delete</i>Discard</button>
+                            <button class="btn btn-link text-dark px-3 mb-0 processOrder"
+                                data-itemID="<%= element.orderID %>"><i
+                                    class="material-icons text-sm me-2">edit</i>Process</button>
+                        </div>
+                    </li>
+                    <% } %>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<% } %>
+
+
+
+
+
+
+
+
+<!-- <button data-bs-toggle="modal" data-bs-target="#processPayment" style="display: none;" id="togglePaymentModal"></button>
+
+
+<div class="modal fade" id="processPayment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" id="modalContentPay">
+
+
+        </div>
+    </div>
+</div> -->
