@@ -1,0 +1,243 @@
+<br><br>
+<div class="card card-body mx-3 mx-md-4 mt-n6">
+    <div class="row gx-4 mb-2">
+        <div class="col-lg-6 col-md-6 my-lg-auto ms-lg-auto me-lg-0 mx-auto mt-3">
+            <div class="nav-wrapper position-relative">
+                <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="pill" href="#home" role="tab"
+                            aria-selected="true">
+                            <i class="material-icons text-lg position-relative">home</i>
+                            <span class="ms-1">Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="pill" href="#menu1" role="tab"
+                            aria-selected="false">
+                            <i class="fa-sharp fa-solid fa-business-time"></i>
+                            <span class="ms-1">Re-stock</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="pill" href="#menu2" role="tab"
+                            aria-selected="false">
+                            <i class="fa-solid fa-file-invoice"></i>
+                            <span class="ms-1">Pending Orders</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="tab-content">
+            <div id="home" class="tab-pane active">
+                <div>
+                    <h4>Inventory Items</h4>
+                </div>
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Item ID
+                                </th>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Item Name</th>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Stock Quantity</th>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for( let i = 0; i < items.length; i++ ) { %>
+                            <% var element=items[i] %>
+                            <tr>
+                                <td class="align-middle text-center">
+                                    <h6 class="mb-0 text-sm"><%= element.itemID %></h6>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <span class="text-secondary text-xs font-weight-bold">
+                                        <%= element.prodName %>
+                                    </span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <p class="text-s text-success font-weight-bold mb-0"><%= element.quantity %></p>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                        data-toggle="tooltip" data-original-title="Edit user">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+                            <% } %>
+
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:;" tabindex="-1">
+                                <span class="material-icons">
+                                    keyboard_arrow_left
+                                </span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="javascript:;">1</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:;">2</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:;">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:;">
+                                <span class="material-icons">
+                                    keyboard_arrow_right
+                                </span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div id="menu1" class="tab-pane">
+                <div>
+                    <h4>Re-Stock Items</h4>
+                </div>
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Item ID
+                                </th>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Item Name</th>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Stock Quantity</th>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for( let i = 0; i < restock.length; i++ ) { %>
+                            <% var element=restock[i] %>
+                            <tr>
+                                <td class="align-middle text-center">
+                                    <h6 class="mb-0 text-sm"><%= element.itemID %></h6>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <span class="text-secondary text-xs font-weight-bold">
+                                        <%= element.prodName %>
+                                    </span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <p class="text-s text-danger font-weight-bold mb-0"><%= element.quantity %></p>
+                                </td>
+                                <td class="align-middle">
+                                    <button class="btn btn-link text-dark px-3 mb-0 restockItem" type="button"
+                                        data-toggle=" tooltip" data-original-title="Edit user"
+                                        data-itemID="<%= element.itemID %>"><i
+                                            class="material-icons text-sm me-2">receipt_long</i>
+                                        Place-Order
+                                    </button>
+                                </td>
+                            </tr>
+                            <% } %>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="menu2" class="tab-pane">
+                <div>
+                    <h4>Pending Re-Stock Orders</h4>
+                </div>
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Item Name
+                                </th>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Supplier Name</th>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Quantity</th>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for( let i = 0; i < restockOrders.length; i++ ) { %>
+                            <% var element=restockOrders[i] %>
+                            <tr>
+                                <td class="align-middle text-center">
+                                    <h6 class="mb-0 text-sm"><%= element.prodName %></h6>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <span class="text-secondary text-xs font-weight-bold">
+                                        <%= element.suppName %>
+                                    </span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <p class="text-s text-success font-weight-bold mb-0"><%= element.quantity %></p>
+                                </td>
+                                <td class="align-middle">
+                                    <button class="btn btn-link text-dark px-3 mb-0 restockOrders" type="button"
+                                        data-toggle=" tooltip" data-original-title="Edit user"
+                                        data-itemID="<%= element.prodID %>" data-suppID="<%= element.suppID%>"><i
+                                            class="fa-solid fa-truck"></i>
+                                        On-Receive
+                                    </button>
+                                </td>
+                            </tr>
+                            <% } %>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<button data-bs-toggle="modal" data-bs-target="#restock" style="display: none;" id="restockModal"></button>
+
+
+<div class="modal logout fade" id="restock" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Place Inventory Order</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="restockbody">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="restockConfirm">Confirm Order</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

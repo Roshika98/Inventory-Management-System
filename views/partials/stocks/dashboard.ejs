@@ -39,8 +39,8 @@
                             <button class="btn btn-link text-danger text-gradient px-3 mb-0 deleteCartItem"
                                 type="button" data-itemID="<%= element.orderID %>"><i
                                     class="material-icons text-sm me-2">delete</i>Discard</button>
-                            <button class="btn btn-link text-dark px-3 mb-0 processOrder"
-                                data-itemID="<%= element.orderID %>"><i
+                            <button class="btn btn-link text-dark px-3 mb-0 stockOrder"
+                                data-orderID="<%= element.orderID %>"><i
                                     class="material-icons text-sm me-2">edit</i>Process</button>
                         </div>
                     </li>
@@ -62,15 +62,25 @@
 
 
 
-<!-- <button data-bs-toggle="modal" data-bs-target="#processPayment" style="display: none;" id="togglePaymentModal"></button>
+<button data-bs-toggle="modal" data-bs-target="#issueItems" style="display: none;" id="issueItemModal"></button>
 
 
-<div class="modal fade" id="processPayment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="issueItems" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" id="modalContentPay">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Issue Stock Items</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="issueStockBody">
 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="issueStockConfirm">Issue Items</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
 
         </div>
     </div>
-</div> -->
+</div>

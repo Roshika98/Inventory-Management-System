@@ -40,6 +40,58 @@ class database {
         return result[0][0];
     }
 
+    async getInventoryItems(iteration) {
+        var count = (iteration - 1) * 10;
+        var q = 'select products.item_code as itemID, products.name as prodName,stocks.quantity as' +
+            ` quantity from products INNER JOIN stocks on products.item_code=stocks.item_code LIMIT ${count},10`;
+        const result = await this.connection.query(q);
+        return result[0];
+    }
+
+    async getProdsToBeFilled() {
+        var q = 'select products.item_code as itemID,products.name as prodName,stocks.quantity as quantity from products ' +
+            'inner join stocks on products.item_code=stocks.item_code where stocks.quantity<100 && stocks.placed_Order=false';
+        const result = await this.connection.query(q);
+        return result[0];
+    }
+
+    async getRestockDetails(id) {
+        var q1 = 'select name from products where item_code=?';
+        var q2 = 'select sup_id,name as sup_name from suppliers';
+        const prodDetails = await this.connection.execute(q1, [id]);
+        const suppDetails = await this.connection.query(q2);
+        const result = {
+            prodID: id,
+            prodName: prodDetails[0][0].name,
+            supplierDetails: suppDetails[0]
+        };
+        return result;
+    }
+
+    async getTempRestockOrders() {
+        var result = [];
+        var q1 = 'select * from temp_restock';
+        var restockOrders = await this.connection.query(q1);
+        var q2 = 'select name as suppName from suppliers where sup_id=?';
+        var q3 = 'select name as itemName from products where item_code=?';
+        for (let i = 0; i < restockOrders[0].length; i++) {
+            const element = restockOrders[0][i];
+            var suppDetails = await this.connection.execute(q2, [element.suppID]);
+            var prodDetails = await this.connection.execute(q3, [element.itemID]);
+            var obj = {
+                prodID: element.itemID,
+                prodName: prodDetails[0][0].itemName,
+                suppID: element.suppID,
+                suppName: suppDetails[0][0].suppName,
+                quantity: element.quantity
+            }
+            result.push(obj);
+        }
+        // console.log(result);
+        return result;
+    }
+
+
     async getCartDetails() {
         var q = 'select * from cart';
         const result = await this.connection.query(q);
@@ -109,13 +161,13 @@ class database {
     }
 
     async getTempOrder(id) {
-        var q = 'select prodID,quantity from temp_order where orderID=?';
-        var items = await this.connection.execute(q, [id]);
+        var q1 = 'select prodID,quantity from temp_order where orderID=?';
+        var items = await this.connection.execute(q1, [id]);
         var result = [];
-        var q = 'select name,unit_price from products where item_code=?';
+        var q2 = 'select name,unit_price from products where item_code=?';
         for (let i = 0; i < items[0].length; i++) {
             const element = items[0][i];
-            var r = await this.connection.execute(q, [element.prodID]);
+            var r = await this.connection.execute(q2, [element.prodID]);
             var obj = {
                 item_code: element.prodID,
                 item_name: r[0][0].name,
@@ -127,6 +179,26 @@ class database {
         return result;
     }
 
+    async getTempOrderStock(id) {
+        var q1 = 'select prodID,quantity from temp_stock where orderID=?';
+        var items = await this.connection.execute(q1, [id]);
+        var result = [];
+        var q2 = 'select name from products where item_code=?';
+        var q3 = 'select store_location from stocks where item_code=?';
+        for (let i = 0; i < items[0].length; i++) {
+            const element = items[0][i];
+            var r1 = await this.connection.execute(q2, [element.prodID]);
+            var r2 = await this.connection.execute(q3, [element.prodID]);
+            var obj = {
+                itemID: element.prodID,
+                itemName: r1[0][0].name,
+                itemLocation: r2[0][0].store_location,
+                itemQuantity: element.quantity
+            };
+            result.push(obj);
+        }
+        return result;
+    }
 
     async getOrderHandlingPersonell(type1, type2) {
         var q = 'select user_name from users where type=? && status=true';
@@ -208,6 +280,31 @@ class database {
         return res2[0];
     }
 
+    async createTempRestockOrder(params) {
+        var q = 'insert into temp_restock(itemID,suppID,quantity) values(?,?,?)';
+        var result = await this.connection.execute(q, [params.id, params.suppID, params.quantity]);
+        var q2 = 'update stocks set placed_Order=true where item_code=?';
+        var res2 = await this.connection.execute(q2, [params.id]);
+        return result[0];
+    }
+
+    async createTempRestockPayment(params) {
+        var q1 = 'insert into temp_order_restock(orderID,suppID,itemID,quantity,amount) values(?,?,?,?,?)';
+        var q2 = 'select unit_price from products where item_code=?';
+        var q3 = 'select quantity from temp_restock where itemID=? && suppID=?';
+        var q4 = 'select quantity from stocks where item_code=?'
+        var id = uuidv4();
+        var price = await this.connection.execute(q2, [params.itemID]);
+        var quantity = await this.connection.execute(q3, [params.itemID, params.suppID]);
+        var amount = parseFloat(price[0][0].unit_price) * parseFloat(quantity[0][0].quantity);
+        var result = await this.connection.execute(q1, [id, params.suppID, params.itemID, quantity[0][0].quantity, amount]);
+        var res2 = await this.deleteTempRestock(params.itemID, params.suppID);
+        var res3 = await this.connection.execute(q4, [params.itemID]);
+        var newQuantity = parseInt(quantity[0][0].quantity) + parseInt(res3[0][0].quantity);
+        var updateStocks = await this.updateInventory(params.itemID, newQuantity);
+        return result[0];
+    }
+
     // *----------------------- UPDATE OPERATIONS --------------------------------
 
     async updateUserStatus(id, status) {
@@ -215,6 +312,13 @@ class database {
         const result = await this.connection.execute(q, [status, id]);
         return result[0];
     }
+
+    async updateInventory(id, amount) {
+        var q = 'update stocks set quantity=?,placed_Order=false where item_code=?';
+        const result = await this.connection.execute(q, [amount, id]);
+        return result[0];
+    }
+
 
     // *----------------------- DELETE OPERATIONS --------------------------------
 
@@ -234,6 +338,28 @@ class database {
         var q = 'delete from temp_order where orderID=?';
         const result = await this.connection.execute(q, [id]);
         return result[0];
+    }
+
+    async deleteTempRestock(item, supplier) {
+        var q = 'delete from temp_restock where itemID=? && suppID=?';
+        const result = await this.connection.execute(q, [item, supplier]);
+        return result[0];
+    }
+
+    async deleteTempOrderStock(orderID) {
+        var q1 = 'select prodID,quantity from temp_stock where orderID=?';
+        var items = await this.connection.execute(q1, [orderID]);
+        var q2 = 'select quantity from stocks where item_code=?';
+        var q3 = 'update stocks set quantity=? where item_code=?';
+        for (let i = 0; i < items[0].length; i++) {
+            const element = items[0][i];
+            var r1 = await this.connection.execute(q2, [element.prodID]);
+            var newQuantity = parseInt(r1[0][0].quantity) - parseInt(element.quantity);
+            var r2 = await this.connection.execute(q3, [newQuantity, element.prodID]);
+        }
+        var q4 = 'delete from temp_stock where orderID=?';
+        var r3 = await this.connection.execute(q4, [orderID]);
+        return r3[0];
     }
 
     // * ------------------------- UTILITY FUNCTIONS ----------------------------------
