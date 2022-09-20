@@ -2,62 +2,155 @@
     <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3">
         <h3 class="text-white text-capitalize ps-3">Current Orders</h3>
     </div>
-</div>
-<% if (orderDetails.length==0) { %>
-<div class="row">
-    <div class="col-md-10 mt-4">
-        <div class="card mb-4 card-center">
-            <div class="card-header pb-0 px-3">
-                <h6 class="mb-0">No Pending Customer Orders Available</h6>
-            </div>
-            <div class="card-footer">
+</div><br><br><br>
 
-            </div>
-        </div>
-    </div>
-</div>
-<% } else { %>
-<div class="row">
-    <div class="col-md-10 mt-4">
-        <div class="card mb-4 card-center">
-            <div class="card-header pb-0 px-3">
-                <h6 class="mb-0">Pending Orders</h6>
-            </div>
-            <div class="card-body pt-4 p-3">
-                <ul class="list-group">
-                    <% for( let i = 0; i < orderDetails.length; i++ ) { %>
-                    <% var element=orderDetails[i] %>
-                    <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-                        <div class="d-flex flex-column">
-                            <h6 class="mb-3 text-sm"><%= element.orderID %> </h6>
-                            <span class="mb-2 text-xs">Item count: <span
-                                    class="text-dark font-weight-bold ms-sm-2"><%= element.itemCount %></span></span>
-                            <span class="mb-2 text-xs">Price to be paid : <span
-                                    class="text-dark ms-sm-2 font-weight-bold">Rs
-                                    <%= element.billTot %></span></span>
-                        </div>
-                        <div class="ms-auto text-end">
-                            <button class="btn btn-link text-danger text-gradient px-3 mb-0 deleteCartItem"
-                                type="button" data-itemID="<%= element.orderID %>"><i
-                                    class="material-icons text-sm me-2">delete</i>Discard</button>
-                            <button class="btn btn-link text-dark px-3 mb-0 processOrder"
-                                data-itemID="<%= element.orderID %>"><i
-                                    class="material-icons text-sm me-2">edit</i>Process</button>
-                        </div>
+<div class="card card-body mx-3 mx-md-4 mt-n6">
+    <div class="row gx-4 mb-2">
+        <div class="col-lg-6 col-md-6 my-lg-auto ms-lg-auto me-lg-0 mx-auto mt-3">
+            <div class="nav-wrapper position-relative">
+                <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="pill" href="#home" role="tab"
+                            aria-selected="true">
+                            <i class="material-icons text-lg position-relative">home</i>
+                            <span class="ms-1">Customer</span>
+                        </a>
                     </li>
-                    <% } %>
-
+                    <li class="nav-item">
+                        <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="pill" href="#menu1" role="tab"
+                            aria-selected="false">
+                            <i class="fa-sharp fa-solid fa-business-time"></i>
+                            <span class="ms-1">Inventory</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="tab-content">
+            <div id="home" class="tab-pane active">
+                <% if (orderDetails.length==0) { %>
+                <div class="row">
+                    <div class="col-md-10 mt-4">
+                        <div class="card mb-4 card-center">
+                            <div class="card-header pb-0 px-3">
+                                <h6 class="mb-0">No Pending Customer Orders Available</h6>
+                            </div>
+                            <div class="card-footer">
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } else { %>
+                <div class="row">
+                    <div class="col-md-10 mt-4">
+                        <div class="card mb-4 card-center">
+                            <div class="card-header pb-0 px-3">
+                                <h6 class="mb-0">Pending Orders</h6>
+                            </div>
+                            <div class="card-body pt-4 p-3">
+                                <ul class="list-group">
+                                    <% for( let i = 0; i < orderDetails.length; i++ ) { %>
+                                    <% var element=orderDetails[i] %>
+                                    <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                                        <div class="d-flex flex-column">
+                                            <h6 class="mb-3 text-sm"><%= element.orderID %> </h6>
+                                            <span class="mb-2 text-xs">Item count: <span
+                                                    class="text-dark font-weight-bold ms-sm-2"><%= element.itemCount %></span></span>
+                                            <span class="mb-2 text-xs">Price to be paid : <span
+                                                    class="text-dark ms-sm-2 font-weight-bold">Rs
+                                                    <%= element.billTot %></span></span>
+                                        </div>
+                                        <div class="ms-auto text-end">
+                                            <button
+                                                class="btn btn-link text-danger text-gradient px-3 mb-0 deleteCartItem"
+                                                type="button" data-itemID="<%= element.orderID %>"><i
+                                                    class="material-icons text-sm me-2">delete</i>Discard</button>
+                                            <button class="btn btn-link text-dark px-3 mb-0 processOrder"
+                                                data-itemID="<%= element.orderID %>"><i
+                                                    class="material-icons text-sm me-2">edit</i>Process</button>
+                                        </div>
+                                    </li>
+                                    <% } %>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <% } %>
+
+            </div>
+            <div id="menu1" class="tab-pane">
+
+                <% if (orderDetails.length==0) { %>
+                <div class="row">
+                    <div class="col-md-10 mt-4">
+                        <div class="card mb-4 card-center">
+                            <div class="card-header pb-0 px-3">
+                                <h6 class="mb-0">No Pending Supplier Payouts Available</h6>
+                            </div>
+                            <div class="card-footer">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } else { %>
+                <div class="row">
+                    <div class="col-md-10 mt-4">
+                        <div class="card mb-4 card-center">
+                            <div class="card-header pb-0 px-3">
+                                <h6 class="mb-0">Pending Payouts</h6>
+                            </div>
+                            <div class="card-body pt-4 p-3">
+                                <ul class="list-group">
+                                    <% for( let i = 0; i < restockDetails.length; i++ ) { %>
+                                    <% var element=restockDetails[i] %>
+                                    <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                                        <div class="d-flex flex-column">
+                                            <h6 class="mb-3 text-sm"><%= element.orderID %> </h6>
+                                            <span class="mb-2 text-xs">Item Name: <span
+                                                    class="text-dark font-weight-bold ms-sm-2"><%= element.itemName %></span></span>
+                                            <span class="mb-2 text-xs">Item Quantity: <span
+                                                    class="text-dark font-weight-bold ms-sm-2"><%= element.quantity %></span></span>
+                                            <span class="mb-2 text-xs">Supplier Name : <span
+                                                    class="text-dark ms-sm-2 font-weight-bold">
+                                                    <%= element.suppName %></span></span>
+                                            <span class="mb-2 text-xs">Payout Amount : <span
+                                                    class="text-dark ms-sm-2 font-weight-bold">Rs
+                                                    <%= element.amount %></span></span>
+                                        </div>
+                                        <div class="ms-auto text-end">
+                                            <button
+                                                class="btn btn-link text-danger text-gradient px-3 mb-0 deleteCartItem"
+                                                type="button" data-itemID="<%= element.orderID %>"><i
+                                                    class="material-icons text-sm me-2">delete</i>Discard</button>
+                                            <button class="btn btn-link text-dark px-3 mb-0 processPayout"
+                                                data-itemID="<%= element.orderID %>"><i
+                                                    class="material-icons text-sm me-2">edit</i>Process</button>
+                                        </div>
+                                    </li>
+                                    <% } %>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <% } %>
+
+            </div>
+
+        </div>
+    </div>
 </div>
-
-<% } %>
-
-
-
 
 
 
@@ -70,6 +163,21 @@
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" id="modalContentPay">
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<button data-bs-toggle="modal" data-bs-target="#payout" style="display: none;" id="togglePayout"></button>
+
+
+<div class="modal fade" id="payout" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" id="payoutContent">
 
 
         </div>

@@ -18,7 +18,8 @@ router.get('', authMiddleware.isAuthCashier, (req, res) => {
 router.get('/home', authMiddleware.isAuthCashier, async (req, res) => {
     var { userType, user_name } = getUserDetails(req);
     var orderDetails = await database.getTempOrderDetails();
-    res.render('partials/cashier/dashboard', { title: name, page: 'dashboard', orderDetails, userType, script: scriptPaths.homepage, user_name });
+    var restockDetails = await database.getTempReStockDetails();
+    res.render('partials/cashier/dashboard', { title: name, page: 'dashboard', orderDetails, restockDetails, userType, script: scriptPaths.homepage, user_name });
 });
 
 router.get('/billing', authMiddleware.isAuthCashier, async (req, res) => {
@@ -32,6 +33,12 @@ router.get('/billing/:id', authMiddleware.isAuthCashier, async (req, res) => {
     var id = req.params.id;
     var items = await database.getTempOrder(id);
     res.render('partials/cashier/content/payment', { layout: false, items, orderID: id });
+});
+
+router.get('/billing/restock/:id', authMiddleware.isAuthCashier, async (req, res) => {
+    var id = req.params.id;
+    var items = await database.getTempReStockOrder(id);
+    res.render('partials/cashier/content/payout', { layout: false, items, orderID: id });
 });
 
 router.get('/account', authMiddleware.isAuthCashier, async (req, res) => {
@@ -49,7 +56,12 @@ router.post('/billing', authMiddleware.isAuthCashier, async (req, res) => {
     res.sendStatus(200);
 });
 
-
+router.post('/billing/restock', authMiddleware.isAuthCashier, async (req, res) => {
+    var params = req.body;
+    console.log(params.orderID);
+    var result = await database.createInventoryOrder(params.orderID);
+    res.sendStatus(200);
+});
 
 module.exports = router;
 

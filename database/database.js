@@ -141,6 +141,29 @@ class database {
         return result;
     }
 
+    async getTempReStockDetails() {
+        var result = [];
+        var q1 = 'select * from temp_order_restock';
+        var q2 = 'select name as itemName from products where item_code=?';
+        var q3 = 'select name as suppName from suppliers where sup_id=?';
+        var restockOrders = await this.connection.query(q1);
+        // console.log(restockOrders[0]);
+        for (let i = 0; i < restockOrders[0].length; i++) {
+            const element = restockOrders[0][i];
+            var itm = await this.connection.execute(q2, [element.itemID]);
+            var supp = await this.connection.execute(q3, [element.suppID]);
+            var obj = {
+                orderID: element.orderID,
+                itemName: itm[0][0].itemName,
+                suppName: supp[0][0].suppName,
+                quantity: element.quantity,
+                amount: element.amount
+            };
+            result.push(obj);
+        }
+        return result;
+    }
+
     async getTempOrderStockDetails() {
         var result = [];
         var q1 = 'select orderID,orderTime from temp_stock group by orderID';
@@ -176,6 +199,27 @@ class database {
             };
             result.push(obj);
         }
+        return result;
+    }
+
+    async getTempReStockOrder(id) {
+        var result = [];
+        var q1 = 'select * from temp_order_restock where orderID=?';
+        var q2 = 'select name as itemName from products where item_code=?';
+        var q3 = 'select name as suppName from suppliers where sup_id=?';
+        var restockOrders = await this.connection.execute(q1, [id]);
+        const element = restockOrders[0][0];
+        var itm = await this.connection.execute(q2, [element.itemID]);
+        var supp = await this.connection.execute(q3, [element.suppID]);
+        var obj = {
+            orderID: element.orderID,
+            itemName: itm[0][0].itemName,
+            suppName: supp[0][0].suppName,
+            quantity: element.quantity,
+            amount: element.amount
+        };
+        result.push(obj);
+
         return result;
     }
 
@@ -265,17 +309,14 @@ class database {
     // ! Requires modification when invetory orders are implemented---------------
     async createInventoryOrder(id) {
         var type = 'inventory';
-        var total = 0;
-        var orderItems = await this.getTempOrder(id);
+        var q = 'select * from temp_order_restock where orderID=?';
+        var order = await this.connection.execute(q, [id]);
         var q1 = 'insert into orderdetails(order_no,type,order_date,sub_total) values (?,?,?,?)';
-        var q2 = 'insert into order_supplier(order_id,supplier_id,product_id,quantity) values (?,?,?,?)';
-        for (let i = 0; i < orderItems.length; i++) {
-            const element = orderItems[i];
-            var res1 = await this.connection.execute(q2, [id, element.supplierID, element.item_code, element.item_quantity]);
-            total += parseFloat(element.item_price) * parseFloat(element.item_quantity);
-        }
+        var q2 = 'insert into order_supplier(order_no,sup_id,product_id,quantity) values (?,?,?,?)';
+        const element = order[0][0];
+        var res1 = await this.connection.execute(q2, [id, element.suppID, element.itemID, element.quantity]);
         var date = this.#getCurrDateTime();
-        var res2 = await this.connection.execute(q1, [id, type, date, total]);
+        var res2 = await this.connection.execute(q1, [id, type, date, parseInt(element.amount)]);
         var deleteItem = await this.deleteTempOrder(id);
         return res2[0];
     }
@@ -360,6 +401,12 @@ class database {
         var q4 = 'delete from temp_stock where orderID=?';
         var r3 = await this.connection.execute(q4, [orderID]);
         return r3[0];
+    }
+
+    async deleteTempRestockOrder(id) {
+        var q = 'delete from temp_order_restock where orderID=?';
+        var res = await this.connection.execute(q, [id]);
+        return res[0];
     }
 
     // * ------------------------- UTILITY FUNCTIONS ----------------------------------
