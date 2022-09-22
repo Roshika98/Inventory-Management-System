@@ -264,6 +264,73 @@ class database {
         return result[0];
     }
 
+    //!-----------------------Generating Reports------------------------------------------------
+
+    async getMonthlySalesReport() {
+        var result = [];
+        var q1 = 'select item_code,name as prodName,unit_price as price from products';
+        var q2 = 'select quantity from order_product where product_code=? && MONTH(order_date)=9 && YEAR(order_date)=YEAR(NOW())';
+        var itemDetails = await this.connection.query(q1);
+        for (let i = 0; i < itemDetails[0].length; i++) {
+            const element = itemDetails[0][i];
+            var salesDetails = await this.connection.execute(q2, [element.item_code]);
+            var quantity = 0;
+            for (let j = 0; j < salesDetails[0].length; j++) {
+                const element1 = salesDetails[0][j];
+                quantity += parseFloat(element1.quantity);
+            }
+            var sales = quantity * parseFloat(element.price);
+            if (sales !== 0) {
+                var obj = {
+                    itemID: element.item_code,
+                    itemName: element.prodName,
+                    soldAmount: quantity,
+                    totSales: sales
+                };
+                result.push(obj);
+            }
+        }
+        console.log(result);
+        return result;
+    }
+
+
+    async getMonthlyInventoryReport() {
+        var result = [];
+        var q1 = 'select products.item_code as itemID,products.name as prodName,stocks.quantity as stockQuantity from products' +
+            ' inner join stocks on products.item_code=stocks.item_code';
+        var q2 = 'select quantity as soldQuantity from order_product where product_code=? && MONTH(order_date)=9 && YEAR(order_date)=YEAR(NOW())';
+        var q3 = 'select quantity as recievedQuantity from order_supplier where product_id=? && MONTH(order_date)=9 && YEAR(order_date)=YEAR(NOW())';
+        var itemDetails = await this.connection.query(q1);
+        for (let i = 0; i < itemDetails[0].length; i++) {
+            const element = itemDetails[0][i];
+            var soldQuantity = 0;
+            var recievedQuantity = 0;
+            var salesDetails = await this.connection.execute(q2, [element.itemID]);
+            for (let j = 0; j < salesDetails[0].length; j++) {
+                const element1 = salesDetails[0][j];
+                soldQuantity += parseFloat(element1.soldQuantity);
+            }
+            var recieveDetails = await this.connection.execute(q3, [element.itemID]);
+            for (let j = 0; j < recieveDetails[0].length; j++) {
+                const element2 = recieveDetails[0][j];
+                recievedQuantity += parseFloat(element2.recievedQuantity);
+            }
+            if (soldQuantity > 0 || recievedQuantity > 0) {
+                var obj = {
+                    itemID: element.itemID,
+                    itemName: element.prodName,
+                    soldQuantity: soldQuantity,
+                    recievedQuantity: recievedQuantity,
+                    inStock: parseInt(element.stockQuantity)
+                }
+                result.push(obj);
+            }
+        }
+        console.log(result);
+        return result;
+    }
+
 
 
     // * --------------------- CREATE OPERATIONS ---------------------------------
@@ -294,13 +361,14 @@ class database {
         var total = 0;
         var orderItems = await this.getTempOrder(id);
         var q1 = 'insert into orderdetails(order_no,type,order_date,sub_total) values (?,?,?,?)';
-        var q2 = 'insert into order_product(order_id,product_code,quantity) values (?,?,?)';
+        var q2 = 'insert into order_product(order_id,product_code,quantity,order_date) values (?,?,?,?)';
+        var date = this.#getCurrDateTime();
         for (let i = 0; i < orderItems.length; i++) {
             const element = orderItems[i];
-            var res1 = await this.connection.execute(q2, [id, element.item_code, element.item_quantity]);
+            var res1 = await this.connection.execute(q2, [id, element.item_code, element.item_quantity, date]);
             total += parseFloat(element.item_price) * parseFloat(element.item_quantity);
         }
-        var date = this.#getCurrDateTime();
+
         var res2 = await this.connection.execute(q1, [id, type, date, total]);
         var deleteItem = await this.deleteTempOrder(id);
         return res2[0];
@@ -312,10 +380,10 @@ class database {
         var q = 'select * from temp_order_restock where orderID=?';
         var order = await this.connection.execute(q, [id]);
         var q1 = 'insert into orderdetails(order_no,type,order_date,sub_total) values (?,?,?,?)';
-        var q2 = 'insert into order_supplier(order_no,sup_id,product_id,quantity) values (?,?,?,?)';
-        const element = order[0][0];
-        var res1 = await this.connection.execute(q2, [id, element.suppID, element.itemID, element.quantity]);
+        var q2 = 'insert into order_supplier(order_no,sup_id,product_id,quantity,order_date) values (?,?,?,?,?)';
         var date = this.#getCurrDateTime();
+        const element = order[0][0];
+        var res1 = await this.connection.execute(q2, [id, element.suppID, element.itemID, element.quantity, date]);
         var res2 = await this.connection.execute(q1, [id, type, date, parseInt(element.amount)]);
         var deleteItem = await this.deleteTempOrder(id);
         return res2[0];
