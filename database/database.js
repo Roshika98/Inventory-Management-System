@@ -147,7 +147,6 @@ class database {
         var q2 = 'select name as itemName from products where item_code=?';
         var q3 = 'select name as suppName from suppliers where sup_id=?';
         var restockOrders = await this.connection.query(q1);
-        // console.log(restockOrders[0]);
         for (let i = 0; i < restockOrders[0].length; i++) {
             const element = restockOrders[0][i];
             var itm = await this.connection.execute(q2, [element.itemID]);
@@ -161,6 +160,7 @@ class database {
             };
             result.push(obj);
         }
+        console.log(result);
         return result;
     }
 
@@ -385,7 +385,7 @@ class database {
         const element = order[0][0];
         var res1 = await this.connection.execute(q2, [id, element.suppID, element.itemID, element.quantity, date]);
         var res2 = await this.connection.execute(q1, [id, type, date, parseInt(element.amount)]);
-        var deleteItem = await this.deleteTempOrder(id);
+        var deleteItem = await this.deleteTempRestockOrder(id);
         return res2[0];
     }
 
