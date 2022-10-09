@@ -9,6 +9,30 @@ const opt = {
     database: 'inventoryManagement'
 };
 
+async function createTables() {
+    var q1 = 'create table orderdetails(order_no varchar(50) not null primary key,type varchar(50),order_date datetime,sub_total int)';
+    var q2 = 'create table products(item_code varchar(50) not null primary key,name varchar(150),product_details varchar(150),product_material varchar(150),unit_price decimal(10,2),picture_url varchar(100))';
+    var q3 = 'create table suppliers(sup_id varchar(50) not null primary key,name varchar(150),ph_no varchar(20),address varchar(150),email varchar(80))';
+    var q4 = 'create table users(user_id varchar(50) not null primary key,user_name varchar(60),user_pw varchar(150),email varchar(50),first_name varchar(150),last_name varchar(100),mobile_no varchar(20),type varchar(20),status boolean)';
+    var q5 = 'create table stocks(item_code varchar(50) not null primary key,quantity int,store_location varchar(100),last_received_on date,placed_Order boolean,FOREIGN KEY (item_code) REFERENCES products(item_code))';
+    var q6 = 'create table order_product(order_id varchar(50),product_code varchar(50),quantity int,order_date datetime,foreign key (order_no) references orderdetails(order_no),foreign key (product_code) references products(item_code))';
+    var q7 = 'create table order_supplier(order_no varchar(50),sup_id varchar(50),product_id varchar(50),quantity int,order_date datetime,foreign key (order_no) references orderdetails(order_no),foreign key (sup_id) references suppliers(sup_id),foreign key (product_id) references products(item_code))';
+    var q8 = 'create table cart(item_no varchar(50) not null primary key,quantity int)';
+    var q9 = 'create table temp_stock(orderID varchar(50),prodID varchar(50),quantity int,orderTime datetime)';
+    var q10 = 'create table temp_order_restock(orderID varchar(50) primary key,suppID varchar(50),itemID varchar(50),quantity int,amount decimal(10,2))';
+    var q11 = 'create table temp_order(orderID varchar(50),prodID varchar(50),quantity int,orderTime datetime,primary key (orderID,prodID))';
+    var q12 = 'create table temp_restock(itemID varchar(50),suppID varchar(50),quantity int,primary key (itemID,suppID))';
+    var tables = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12];
+    console.log('Creating Tables...')
+    var connection = await mysql.createConnection(opt);
+    for (let i = 0; i < tables.length; i++) {
+        const element = array[i];
+        await connection.query(element);
+    }
+    await connection.end();
+    console.log('Tables created...');
+}
+
 function createUserDetails(type) {
     var id = uuidv4();
     var fisrtname = faker.name.firstName('male');
@@ -70,6 +94,8 @@ async function createProducts() {
     console.log('Random products created!');
     await connection.end();
 }
+
+
 
 async function createUsers() {
     console.log('Creating random employees....\n\n ');
