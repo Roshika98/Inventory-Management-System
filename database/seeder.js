@@ -133,6 +133,7 @@ async function createUsers() {
 
 async function feedRandomData() {
     try {
+        await createTables();
         await createSuppliers();
         await createProducts();
         await createUsers();
