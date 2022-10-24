@@ -332,6 +332,78 @@ class database {
     }
 
 
+    async getCustomerBill(orderID) {
+        var q1 = 'select * from orderdetails where order_no=?';
+        var q2 = 'select * from order_product where order_id=?';
+        var q3 = 'select * from products where item_code=?';
+        var order = await this.connection.execute(q1, [orderID]);
+        var obj1 = {
+            total: order[0][0].sub_total,
+            date: order[0][0].order_date
+        };
+        var results = [];
+        var items = await this.connection.execute(q2, [orderID]);
+        for (let i = 0; i < items[0].length; i++) {
+            const element = items[0][i];
+            var itemDetails = await this.connection.execute(q3, [element.product_code]);
+            var element2 = itemDetails[0][0];
+            var obj2 = {
+                itemName: element2.name,
+                quantity: element.quantity,
+                unitPrice: element2.unit_price,
+                total: parseFloat(element.quantity) * parseFloat(element2.unit_price)
+            }
+            results.push(obj2);
+        }
+        var result = {
+            order: obj1,
+            itemDetails: results
+        };
+        return result;
+    }
+
+    async getSupplierBill(orderID) {
+        var q1 = 'select * from orderdetails where order_no=?';
+        var q2 = 'select * from order_supplier where order_no=?';
+        var q3 = 'select * from products where item_code=?';
+        var order = await this.connection.execute(q1, [orderID]);
+        var orderSup = await this.connection.execute(q2, [orderID]);
+        var items = await this.connection.execute(q3, [orderSup[0][0].product_id]);
+        var obj = {
+            date: order[0][0].order_date,
+            total: order[0][0].sub_total,
+            itemID: items[0][0].item_code,
+            itemName: items[0][0].name,
+            supID: orderSup[0][0].sup_id,
+            quantity: orderSup[0][0].quantity,
+            price: items[0][0].unit_price
+        }
+        return obj;
+    }
+
+    async getFinantialReport() {
+        var q1 = `select * from orderdetails where MONTH(order_date)=MONTH(NOW()) && YEAR(order_date)=YEAR(NOW()) && type='sales'`;
+        var q2 = `select * from orderdetails where MONTH(order_date)=MONTH(NOW()) && YEAR(order_date)=YEAR(NOW()) && type='inventory'`;
+        var sales = await this.connection.query(q1);
+        var cost = await this.connection.query(q2);
+        var totSales = 0;
+        var totCost = 0;
+        for (let i = 0; i < sales[0].length; i++) {
+            const element = sales[0][i];
+            totSales += parseFloat(element.sub_total)
+        }
+        for (let i = 0; i < cost[0].length; i++) {
+            const element = cost[0][i];
+            totCost += parseFloat(element.sub_total);
+        }
+        var obj = {
+            sales: totSales,
+            cost: totCost,
+            profit: totSales - totCost
+        }
+        return obj;
+    }
+
 
     // * --------------------- CREATE OPERATIONS ---------------------------------
 
@@ -371,7 +443,7 @@ class database {
 
         var res2 = await this.connection.execute(q1, [id, type, date, total]);
         var deleteItem = await this.deleteTempOrder(id);
-        return res2[0];
+        return id;
     }
 
     // ! Requires modification when invetory orders are implemented---------------
@@ -386,7 +458,7 @@ class database {
         var res1 = await this.connection.execute(q2, [id, element.suppID, element.itemID, element.quantity, date]);
         var res2 = await this.connection.execute(q1, [id, type, date, parseInt(element.amount)]);
         var deleteItem = await this.deleteTempOrder(id);
-        return res2[0];
+        return id;
     }
 
     async createTempRestockOrder(params) {

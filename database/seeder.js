@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const opt = {
     host: 'localhost',
     user: 'root',
-    database: 'inventoryManagement'
+    database: 'inventoryManagement2'
 };
 
 async function createTables() {

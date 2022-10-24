@@ -52,6 +52,9 @@ function fillPaymentModal(data) {
         var result = await axios.post('http://localhost:3000/NegomboHardware/cashier/billing', body,
             { headers: { 'Content-Type': 'application/json' } });
         orderConfirmed.click();
+        var bill = document.getElementById('report');
+        bill.setAttribute('href', `http://localhost:3000/NegomboHardware/cashier/customerOrder/${result.data}`);
+        bill.click();
         window.location = 'http://localhost:3000/NegomboHardware/cashier/home';
     });
 }
@@ -69,6 +72,9 @@ function fillPayoutModal(data) {
         var result = await axios.post('http://localhost:3000/NegomboHardware/cashier/billing/restock', body,
             { headers: { 'Content-Type': 'application/json' } });
         orderConfirmed.click();
+        var bill = document.getElementById('report');
+        bill.setAttribute('href', `http://localhost:3000/NegomboHardware/cashier/supplierOrder/${result.data}`);
+        bill.click();
         window.location = 'http://localhost:3000/NegomboHardware/cashier/home';
     });
 }

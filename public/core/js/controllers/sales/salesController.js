@@ -40,6 +40,7 @@ function itemCart() {
             var params = JSON.stringify(prepareBody(item_code, quantity));
             var response = await axios.post('http://localhost:3000/NegomboHardware/sales/cart', params,
                 { headers: { 'Content-Type': 'application/json', } });
+            window.location = 'http://localhost:3000/NegomboHardware/sales/home'
             console.log(response.data);
         });
     }

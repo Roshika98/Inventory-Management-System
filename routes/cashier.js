@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/authenticationMiddleware');
 const database = require('../database/database');
+const ejs = require('ejs');
+const puppeteer = require('puppeteer');
+const path = require('path');
 const name = 'Cashier';
 
 const scriptPaths = {
@@ -53,14 +56,40 @@ router.get('/account', authMiddleware.isAuthCashier, async (req, res) => {
 router.post('/billing', authMiddleware.isAuthCashier, async (req, res) => {
     var params = req.body;
     var result = await database.createSalesOrder(params.orderID);
-    res.sendStatus(200);
+    res.send(result);
 });
 
 router.post('/billing/restock', authMiddleware.isAuthCashier, async (req, res) => {
     var params = req.body;
     console.log(params.orderID);
     var result = await database.createInventoryOrder(params.orderID);
-    res.sendStatus(200);
+    res.send(result);
+});
+
+// !------------------------BILLS------------------------------------
+
+router.get('/customerOrder/:id', async (req, res) => {
+    const order = await database.getCustomerBill(req.params.id);
+    const pdfTemplate = await ejs.renderFile(path.normalize(path.join(__dirname, '../views/reports/userbill.ejs')), { orderID: req.params.id, order: order.order, items: order.itemDetails }, { beautify: true, async: true });
+    res.writeHead(200, { 'content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="bill.pdf"' });
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.setContent(pdfTemplate);
+    const buffer = await page.pdf({ format: "A4" });
+    await browser.close();
+    res.end(buffer);
+});
+
+router.get('/supplierOrder/:id', async (req, res) => {
+    const order = await database.getSupplierBill(req.params.id);
+    const pdfTemplate = await ejs.renderFile(path.normalize(path.join(__dirname, '../views/reports/supplierbill.ejs')), { order }, { beautify: true, async: true });
+    res.writeHead(200, { 'content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="bill.pdf"' });
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.setContent(pdfTemplate);
+    const buffer = await page.pdf({ format: "A4" });
+    await browser.close();
+    res.end(buffer);
 });
 
 module.exports = router;
