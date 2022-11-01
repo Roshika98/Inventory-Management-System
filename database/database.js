@@ -27,6 +27,12 @@ class database {
         return result[0][0];
     }
 
+    async getSupplierDetails() {
+        var q = 'select * from suppliers';
+        const result = await this.connection.query(q);
+        return result[0];
+    }
+
     async searchForProducts(prodName) {
         var q = 'select products.item_code,name,product_details,picture_url,unit_price,quantity from products inner join stocks on ' +
             `products.item_code=stocks.item_code where products.name like '%${prodName}%'`;
