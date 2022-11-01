@@ -269,7 +269,7 @@ class database {
     async getMonthlySalesReport() {
         var result = [];
         var q1 = 'select item_code,name as prodName,unit_price as price from products';
-        var q2 = 'select quantity from order_product where product_code=? && MONTH(order_date)=9 && YEAR(order_date)=YEAR(NOW())';
+        var q2 = 'select quantity from order_product where product_code=? && MONTH(order_date)=MONTH(NOW()) && YEAR(order_date)=YEAR(NOW())';
         var itemDetails = await this.connection.query(q1);
         for (let i = 0; i < itemDetails[0].length; i++) {
             const element = itemDetails[0][i];
@@ -299,8 +299,8 @@ class database {
         var result = [];
         var q1 = 'select products.item_code as itemID,products.name as prodName,stocks.quantity as stockQuantity from products' +
             ' inner join stocks on products.item_code=stocks.item_code';
-        var q2 = 'select quantity as soldQuantity from order_product where product_code=? && MONTH(order_date)=9 && YEAR(order_date)=YEAR(NOW())';
-        var q3 = 'select quantity as recievedQuantity from order_supplier where product_id=? && MONTH(order_date)=9 && YEAR(order_date)=YEAR(NOW())';
+        var q2 = 'select quantity as soldQuantity from order_product where product_code=? && MONTH(order_date)=MONTH(NOW()) && YEAR(order_date)=YEAR(NOW())';
+        var q3 = 'select quantity as recievedQuantity from order_supplier where product_id=? && MONTH(order_date)=MONTH(NOW()) && YEAR(order_date)=YEAR(NOW())';
         var itemDetails = await this.connection.query(q1);
         for (let i = 0; i < itemDetails[0].length; i++) {
             const element = itemDetails[0][i];
@@ -457,8 +457,8 @@ class database {
         const element = order[0][0];
         var res1 = await this.connection.execute(q2, [id, element.suppID, element.itemID, element.quantity, date]);
         var res2 = await this.connection.execute(q1, [id, type, date, parseInt(element.amount)]);
-        var deleteItem = await this.deleteTempOrder(id);
-        return res2[0];
+        var deleteItem = await this.deleteTempRestockOrder(id);
+        return id;
     }
 
     async createTempRestockOrder(params) {
