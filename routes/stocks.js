@@ -48,6 +48,13 @@ router.get('/inventory/restock', authMiddleware.isAuthStocks, async (req, res) =
     res.render('partials/stocks/content/restock', { layout: false, restock: result });
 });
 
+router.get('/suppliers', authMiddleware.isAuthStocks, async (req, res) => {
+    var { userType, user_name } = getUserDetails(req);
+    var suppliers = await database.getSupplierDetails();
+    console.log(suppliers);
+    res.render('partials/stocks/suppliers', { userType, user_name, title: name, suppliers, page: 'suppliers', script: '' });
+});
+
 // * ------------------------ POST REQUESTS ---------------------------------------------------
 
 
