@@ -21,6 +21,13 @@ router.get('/home', authMiddleware.isAuthStocks, async (req, res) => {
     res.render('partials/stocks/dashboard', { title: name, page: 'dashboard', userType, user_name, orderDetails: result, script: scriptPaths.homepage });
 });
 
+router.get('/account', authMiddleware.isAuthStocks, async (req, res) => {
+    var id = req.session.user_id;
+    var { userType, user_name } = getUserDetails(req);
+    var details = await database.getUserDetails(id);
+    res.render('partials/sales/account', { title: name, page: 'Account', details: details, userType, script: scriptPaths.account, user_name });
+});
+
 router.get('/orders', authMiddleware.isAuthStocks, async (req, res) => {
     var { userType, user_name } = getUserDetails(req);
     var orders = await database.getProcessedOrders('inventory');
@@ -32,7 +39,8 @@ router.get('/inventory', authMiddleware.isAuthStocks, async (req, res) => {
     var items = await database.getInventoryItems(1);
     var restock = await database.getProdsToBeFilled();
     var restockOrders = await database.getTempRestockOrders();
-    res.render('partials/stocks/inventory', { userType, user_name, title: name, items, restock, restockOrders, page: 'inventory', script: scriptPaths.inventory });
+    var newScenario = (res.locals.error && res.locals.error.length) || (res.locals.success && res.locals.success.length) ? true : false;
+    res.render('partials/stocks/inventory', { userType, user_name, newScenario, title: name, items, restock, restockOrders, page: 'inventory', script: scriptPaths.inventory });
 });
 
 router.get('/inventory/issueItems', authMiddleware.isAuthStocks, async (req, res) => {
@@ -76,6 +84,19 @@ router.post('/restock/onreceive', authMiddleware.isAuthStocks, async (req, res) 
     var result = await database.createTempRestockPayment(params);
     res.sendStatus(200);
 });
+
+router.post('/addProduct', authMiddleware.isAuthStocks, async (req, res) => {
+    console.log(req.body);
+    const result = await database.addNewProduct(req.body);
+    if (result === 0) {
+        req.flash('error', 'item already exists!');
+        res.redirect('/NegomboHardware/stocks/inventory');
+    } else {
+        req.flash('success', 'item successfully added!');
+        res.redirect('/NegomboHardware/stocks/inventory');
+    }
+});
+
 
 
 module.exports = router;

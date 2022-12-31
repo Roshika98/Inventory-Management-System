@@ -49,7 +49,7 @@ class database {
     async getInventoryItems(iteration) {
         var count = (iteration - 1) * 10;
         var q = 'select products.item_code as itemID, products.name as prodName,stocks.quantity as' +
-            ` quantity from products INNER JOIN stocks on products.item_code=stocks.item_code LIMIT ${count},10`;
+            ` quantity from products INNER JOIN stocks on products.item_code=stocks.item_code `;
         const result = await this.connection.query(q);
         return result[0];
     }
@@ -491,6 +491,40 @@ class database {
         var updateStocks = await this.updateInventory(params.itemID, newQuantity);
         return result[0];
     }
+
+
+    async addNewProduct(params) {
+        var q = 'insert into products(item_code,name,product_details,unit_price) values (?,?,?,?)';
+        var q2 = 'select item_code from products where item_code' + ` like 'ITM%' order by item_code desc limit 1`;
+        var newName = params.name;
+        var q3 = `select item_code from products where name like '${newName}'`;
+        var q4 = 'insert into stocks(item_code) values (?)';
+        var isExisting = await this.connection.query(q3);
+        if (isExisting[0][0]) {
+            console.log('item already exists!');
+            return 0;
+        } else {
+            var res1 = await this.connection.query(q2);
+            var id = '';
+            if (res1[0][0]) {
+                var lastID = res1[0][0].itemID;
+                console.log(lastID);
+                if (lastID.charAt(2) === 'M') {
+                    var val = lastID.substring(3);
+                    val = parseInt(val);
+                    val = val + 1 < 10 ? '0' + (val + 1) : val + 1;
+                    id = 'ITM0' + val;
+                }
+            }
+            else
+                id = 'ITM0' + '01';
+            const result = await this.connection.execute(q, [id, params.name, params.details, params.sellprice]);
+            const stockRes = await this.connection.execute(q4, [id]);
+            return result[0];
+        }
+
+    }
+
 
     // *----------------------- UPDATE OPERATIONS --------------------------------
 

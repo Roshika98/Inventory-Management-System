@@ -24,7 +24,30 @@
         </table>
         <h1 style="font-size: 30px;font-weight: 600; color: green; margin-top: 10px;">INVENTORY REPORT</h1>
 
+        <table width="95%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="10%" align="left" valign="top" bgcolor="#ffe77b" style="background-color:#fff;">
 
+                </td>
+                <td width="20%" align="left" bgcolor="#ffe77b" style="background-color: #fff;">
+                </td>
+                <td width="70%" align="right" bgcolor="#ffe77b" style="background-color: #fff;">
+                    <h4>
+                        <% 
+                            var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+
+today = dd + '/' + mm + '/' + yyyy;
+var begining=01+'/'+mm+'/'+yyyy; %>
+                        <%= begining+' - '+today %>
+
+                    </h4>
+
+                </td>
+            </tr>
+        </table>
         <table class="table" width="95%">
             <thead>
                 <tr>

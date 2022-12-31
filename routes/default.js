@@ -39,7 +39,11 @@ router.post('/login', async (req, res) => {
         req.flash('error', '    username or password is incorrect!');
         res.redirect('/NegomboHardware/login');
     }
+});
 
+router.post('/changePassword', async (req, res) => {
+    console.log(req.body);
+    res.send('got');
 });
 
 
