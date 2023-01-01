@@ -43,7 +43,19 @@ router.post('/login', async (req, res) => {
 
 router.post('/changePassword', async (req, res) => {
     console.log(req.body);
-    res.send('got');
+    const result = await authentication.changePassword(req.session.user_id, req.body.old, req.body.new);
+    if (result.isValid) {
+        req.flash('success', result.message);
+    } else req.flash('error', result.message);
+    if (req.session.user_type === 'Salesman') {
+        res.redirect('/NegomboHardware/sales/account');
+    } else if (req.session.user_type === 'Accountant') {
+        res.redirect('/NegomboHardware/cashier/account');
+    } else if (req.session.user_type === 'Manager') {
+        res.redirect('/NegomboHardware/manager/account');
+    } else if (req.session.user_type === 'StockHandler') {
+        res.redirect('/NegomboHardware/stocks/account');
+    }
 });
 
 

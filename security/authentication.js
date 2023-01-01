@@ -34,6 +34,28 @@ async function addNewUser(username, password, email, type) {
     connection.end();
 };
 
+const changePassword = async function changePassword(userID, old, newPassword) {
+    const connection = await mysql2.createConnection(dbOpt);
+    var query = 'SELECT user_id,user_name,user_pw,type FROM users WHERE user_id=?';
+    var newQ = 'update users set user_pw=? where user_id=?';
+    const result = await connection.execute(query, [userID]);
+    if (result[0].length == 0) {
+        await connection.end();
+        return { isValid: false, message: 'no user found' };
+    } else {
+        const validPassword = await bcrypt.compare(old, result[0][0].user_pw);
+        if (validPassword) {
+            var hash = await bcrypt.hash(newPassword, 12);
+            const response = await connection.execute(newQ, [hash, userID]);
+            await connection.end();
+            return { isValid: true, message: 'password change successful!' };
+        } else {
+            await connection.end();
+            return { isValid: false, message: 'current password is wrong!' };
+        }
+    }
+}
+
 
 /**
  * Used to login a user to their account
@@ -70,4 +92,4 @@ const deserializeUser = function deserializeUserSession(req) {
     req.session.destroy();
 }
 
-module.exports = { login: userLogin, serializeUser: serializeUser, deserializeUser: deserializeUser, createNewUser: addNewUser };
+module.exports = { login: userLogin, serializeUser: serializeUser, deserializeUser: deserializeUser, createNewUser: addNewUser, changePassword: changePassword };

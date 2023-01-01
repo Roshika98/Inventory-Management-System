@@ -35,7 +35,8 @@
                     <input type="number" class="form-control" placeholder="Quantity" id="quantity">
                 </div>
                 <br>
-                <button type="button" class="btn btn-primary itemCart" data-itemCode="<%= products[i].item_code %>">add
+                <button type="button" class="btn btn-primary itemCart" data-itemCode="<%= products[i].item_code %>"
+                    <% if (products[i].quantity<10) { %> disabled='true' <% } %>>add
                     item to order</button>
             </div>
         </div>
