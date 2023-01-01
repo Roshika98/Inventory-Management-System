@@ -524,6 +524,34 @@ class database {
         }
     }
 
+    async addSupplier(params) {
+        var q1 = 'insert into suppliers(sup_id,name,ph_no,address,email) values (?,?,?,?,?)';
+        var q2 = 'select sup_id from suppliers where sup_id' + ` like 'SUP%' order by sup_id desc limit 1`;
+        var q3 = `select sup_id from suppliers where name like '${params.name}'`;
+        var isExisting = await this.connection.query(q3);
+        if (isExisting[0][0]) {
+            console.log('supplier already exists!');
+            return 0;
+        } else {
+            var res1 = await this.connection.query(q2);
+            var id = '';
+            if (res1[0][0]) {
+                var lastID = res1[0][0].sup_id;
+                console.log(lastID);
+                if (lastID.charAt(2) === 'P') {
+                    var val = lastID.substring(3);
+                    val = parseInt(val);
+                    val = val + 1 < 10 ? '0' + (val + 1) : val + 1;
+                    id = 'SUP0' + val;
+                }
+            }
+            else
+                id = 'SUP0' + '01';
+            const result = await this.connection.execute(q1, [id, params.name, params.mobile, params.address, params.email]);
+            return result[0];
+        }
+    }
+
 
     // *----------------------- UPDATE OPERATIONS --------------------------------
 

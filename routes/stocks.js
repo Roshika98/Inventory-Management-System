@@ -97,6 +97,17 @@ router.post('/addProduct', authMiddleware.isAuthStocks, async (req, res) => {
     }
 });
 
+router.post('/addSupplier', authMiddleware.isAuthStocks, async (req, res) => {
+    const result = await database.addSupplier(req.body);
+    if (result === 0) {
+        req.flash('error', 'Supplier already exists!');
+        res.redirect('/NegomboHardware/stocks/suppliers');
+    } else {
+        req.flash('success', 'Supplier successfully added!');
+        res.redirect('/NegomboHardware/stocks/suppliers');
+    }
+});
+
 
 
 module.exports = router;

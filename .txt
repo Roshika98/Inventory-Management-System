@@ -3,6 +3,6 @@ username: Perry67  password: _g13joxq  userType: Salesman
 username: Pedro_Schowalter62  password: N4X36jvD  userType: Salesman
 username: Emilio79  password: p21QRjyw  userType: Accountant
 username: Abel12  password: 9SZs1awV  userType: Accountant
-username: Homer83  password: Hellothere  userType: StockHandler
+username: Homer83  password: admin123  userType: StockHandler
 username: Kyle_Walker12  password: s_abnCBt  userType: StockHandler
 username: Conrad92  password: xUpmxgm0  userType: StockHandler
