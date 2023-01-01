@@ -507,7 +507,7 @@ class database {
             var res1 = await this.connection.query(q2);
             var id = '';
             if (res1[0][0]) {
-                var lastID = res1[0][0].itemID;
+                var lastID = res1[0][0].item_code;
                 console.log(lastID);
                 if (lastID.charAt(2) === 'M') {
                     var val = lastID.substring(3);
@@ -522,7 +522,6 @@ class database {
             const stockRes = await this.connection.execute(q4, [id]);
             return result[0];
         }
-
     }
 
 
