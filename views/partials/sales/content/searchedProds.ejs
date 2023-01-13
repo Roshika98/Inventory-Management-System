@@ -7,31 +7,26 @@
 </div>
 <div class="row">
     <% } %>
-    <div class="col-xl-3 col-sm-6">
-        <div class="card">
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
             <div class="card-header p-3 pt-2 bg-gradient-success">
-                <div class="text-end pt-1">
-                    <p class="text-sm text-white mb-0 text-capitalize font-weight-bolder"><%= products[i].name %></p>
-                    <h4 class="mb-0">Rs <%= products[i].unit_price %> </h4>
-                </div>
+                <h6><%= products[i].name %></h6>
+                <p class="mb-0">Rs <%= products[i].unit_price %> </p>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-body p-3">
-                <div class="row">
-                    <p class="text-sm mb-0"><%= products[i].product_details %></p>
-                </div>
+                <!-- <div class="row"> -->
+                <p class="text-sm mb-0"><%= products[i].product_details %></p>
+                <!-- </div> -->
                 <hr class="dark horizontal my-0">
                 <br>
-                <div class="row">
-                    <p class="mb-0"><span
-                            class="text-success text-sm font-weight-bolder"><%= products[i].quantity %></span>
-                        stocks available</p>
-                </div>
+                <!-- <div class="row"> -->
+                <p class="mb-0"><span class="text-success text-sm font-weight-bolder"><%= products[i].quantity %></span>
+                    stocks available</p>
+                <!-- </div> -->
             </div>
-            <hr class="dark horizontal my-0">
             <div class="card-footer p-3">
-                <div class="input-group input-group-outline">
-                    <label class="form-label"></label>
+                <div class="input-group no-border">
                     <input type="number" class="form-control" placeholder="Quantity" id="quantity">
                 </div>
                 <br>
@@ -45,6 +40,6 @@
 </div>
 <% } else { %>
 <div>
-    <h5>No such item exists!</h5>
+    <h6> No such item exists!</h6>
 </div>
 <% } %>

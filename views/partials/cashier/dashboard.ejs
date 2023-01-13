@@ -1,7 +1,7 @@
 <div class="row">
-    <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3">
-        <h3 class="text-white text-capitalize ps-3">Current Orders</h3>
-    </div>
+    <!-- <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3"> -->
+    <h3 class="title">Current Orders</h3>
+    <!-- </div> -->
 </div><br><br><br>
 
 <div class="card card-body mx-3 mx-md-4 mt-n6">
@@ -66,11 +66,9 @@
                                         <div class="ms-auto text-end">
                                             <button
                                                 class="btn btn-link text-danger text-gradient px-3 mb-0 deleteCartItem"
-                                                type="button" data-itemID="<%= element.orderID %>"><i
-                                                    class="material-icons text-sm me-2">delete</i>Discard</button>
+                                                type="button" data-itemID="<%= element.orderID %>">Discard</button>
                                             <button class="btn btn-link text-dark px-3 mb-0 processOrder"
-                                                data-itemID="<%= element.orderID %>"><i
-                                                    class="material-icons text-sm me-2">edit</i>Process</button>
+                                                data-itemID="<%= element.orderID %>">Process</button>
                                         </div>
                                     </li>
                                     <% } %>

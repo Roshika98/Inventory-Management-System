@@ -24,17 +24,21 @@
             Negombo Hardware
         </title>
         <!--     Fonts and icons     -->
-        <link rel="stylesheet" type="text/css"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
         <!-- Nucleo Icons -->
         <link href="/assets/css/nucleo-icons.css" rel="stylesheet" type="text/css" />
-        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" type="text/css" />
+        <!-- <link href="/assets/css/nucleo-svg.css" rel="stylesheet" type="text/css" /> -->
         <!-- Font Awesome Icons -->
-        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <!-- <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script> -->
         <!-- Material Icons -->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+        <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" /> -->
         <!-- CSS Files -->
-        <link id="pagestyle" href="/assets/css/material-dashboard.css" rel="stylesheet" />
+        <!-- <link id="pagestyle" href="/assets/css/material-dashboard.css" rel="stylesheet" /> -->
+        <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="/assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+        <!-- CSS Just for demo purpose, don't include it in your project -->
+        <link href="/assets/demo/demo.css" rel="stylesheet" />
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
             integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
@@ -44,7 +48,7 @@
             crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
 
-    <body class="g-sidenav-show  bg-gray-200">
+    <body class="">
         <%- include('./notifications/success')  %>
         <%- include('./notifications/error')  %>
         <% let type='' %>
@@ -53,7 +57,7 @@
         <% } else if (userType==='Manager') { type='manager' %>
         <% } else type='stocks' %>
 
-        <aside
+        <!-- <aside
             class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
             id="sidenav-main" data-username="<%= user_name %>">
             <div class="sidenav-header">
@@ -70,7 +74,7 @@
                 <ul class="navbar-nav">
                     <% if (type==='sales') { %>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="http://localhost:3000/NegomboHardware/sales/home"
+                        <a  href="http://localhost:3000/NegomboHardware/sales/home"
                             id="homePage">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">dashboard</i>
@@ -209,165 +213,192 @@
                         data-bs-target="#staticBackdrop">Logout</button>
                 </div>
             </div>
-        </aside>
+        </aside> -->
 
-        <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <div class="wrapper ">
 
-            <!-- Navbar -->
-            <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
-                navbar-scroll="true">
-                <div class="container-fluid py-1 px-3">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark"
-                                    href="javascript:;"><%= title %></a></li>
-                            <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><%= page %></li>
-                        </ol>
-                        <h6 class="font-weight-bolder mb-0"><%= page %></h6>
-                    </nav>
-                    <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-                        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                            <div class="input-group input-group-outline">
-                                <label class="form-label">Type here...</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <ul class="navbar-nav  justify-content-end">
-                            <li class="nav-item d-flex align-items-center">
-                                <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
-                                    <i class="fa fa-user me-sm-1"></i>
-                                    <span class="d-sm-inline d-none">Sign In</span>
-                                </a>
-                            </li>
-                            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-                                <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
-                                    <div class="sidenav-toggler-inner">
-                                        <i class="sidenav-toggler-line"></i>
-                                        <i class="sidenav-toggler-line"></i>
-                                        <i class="sidenav-toggler-line"></i>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="nav-item px-3 d-flex align-items-center">
-                                <a href="javascript:;" class="nav-link text-body p-0">
-                                    <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                                <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-bell cursor-pointer"></i>
-                                </a>
-                                <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
-                                    aria-labelledby="dropdownMenuButton">
-                                    <li class="mb-2">
-                                        <a class="dropdown-item border-radius-md" href="javascript:;">
-                                            <div class="d-flex py-1">
-                                                <div class="my-auto">
-                                                    <img src="./assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="text-sm font-weight-normal mb-1">
-                                                        <span class="font-weight-bold">New message</span> from Laur
-                                                    </h6>
-                                                    <p class="text-xs text-secondary mb-0">
-                                                        <i class="fa fa-clock me-1"></i>
-                                                        13 minutes ago
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="mb-2">
-                                        <a class="dropdown-item border-radius-md" href="javascript:;">
-                                            <div class="d-flex py-1">
-                                                <div class="my-auto">
-                                                    <img src="/assets/img/small-logos/logo-spotify.svg"
-                                                        class="avatar avatar-sm bg-gradient-dark  me-3 ">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="text-sm font-weight-normal mb-1">
-                                                        <span class="font-weight-bold">New album</span> by Travis Scott
-                                                    </h6>
-                                                    <p class="text-xs text-secondary mb-0">
-                                                        <i class="fa fa-clock me-1"></i>
-                                                        1 day
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item border-radius-md" href="javascript:;">
-                                            <div class="d-flex py-1">
-                                                <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                                                    <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <title>credit-card</title>
-                                                        <g stroke="none" stroke-width="1" fill="none"
-                                                            fill-rule="evenodd">
-                                                            <g transform="translate(-2169.000000, -745.000000)"
-                                                                fill="#FFFFFF" fill-rule="nonzero">
-                                                                <g transform="translate(1716.000000, 291.000000)">
-                                                                    <g transform="translate(453.000000, 454.000000)">
-                                                                        <path class="color-background"
-                                                                            d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                                                            opacity="0.593633743"></path>
-                                                                        <path class="color-background"
-                                                                            d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z">
-                                                                        </path>
-                                                                    </g>
-                                                                </g>
-                                                            </g>
-                                                        </g>
-                                                    </svg>
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="text-sm font-weight-normal mb-1">
-                                                        Payment successfully completed
-                                                    </h6>
-                                                    <p class="text-xs text-secondary mb-0">
-                                                        <i class="fa fa-clock me-1"></i>
-                                                        2 days
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+            <div class="sidebar" data-color="white" data-active-color="danger" data-username="<%= user_name %>"
+                id="sidenav-main">
+                <div class="logo">
+                    <!-- <a href="https://www.creative-tim.com" class="simple-text logo-mini"> -->
+                    <!-- <div class="logo-image-small">
+                    <img src="./assets/img/logo-small.png">
+                  </div> -->
+                    <!-- <p>CT</p> -->
+                    <!-- </a> -->
+                    <a href="https://www.creative-tim.com" class="simple-text logo-normal">
+                        Negombo Hardware
+                        <!-- <div class="logo-image-big">
+                    <img src="../assets/img/logo-big.png">
+                  </div> -->
+                    </a>
                 </div>
-            </nav>
-            <!-- End Navbar -->
+                <div class="sidebar-wrapper">
+                    <ul class="nav">
 
-            <div class="container-fluid py-4">
+                        <% if (type==='sales') { %>
+                        <li class="nav-item" id="homePage">
+                            <a href="http://localhost:3000/NegomboHardware/sales/home">
+                                <i class="nc-icon nc-bank"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="orderPage">
+                            <a href="http://localhost:3000/NegomboHardware/sales/orders">
+                                <i class="nc-icon nc-bank"></i>
+                                <p class="nav-link-text ms-1">Order</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="accountPage">
+                            <a href="http://localhost:3000/NegomboHardware/sales/account">
+                                <i class="nc-icon nc-bank"></i>
+                                <p class="nav-link-text ms-1">Profile</p>
+                            </a>
+                        </li>
+                        <% } else if(type==='cashier') { %>
+                        <li class="nav-item" id="homepage">
+                            <a href="http://localhost:3000/NegomboHardware/cashier/home">
+                                <i class="nc-icon nc-bank"></i>
+                                <p class="nav-link-text ms-1">Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="orderPage">
+                            <a href="http://localhost:3000/NegomboHardware/cashier/billing">
+                                <i class="nc-icon nc-bank"></i>
+                                <p class="nav-link-text ms-1">Sales Orders</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="accountPage">
+                            <a href="http://localhost:3000/NegomboHardware/cashier/account">
+                                <i class="nc-icon nc-bank"></i>
+                                <p class="nav-link-text ms-1">Profile</p>
+                            </a>
+                        </li>
+                        <% } else if(type==='manager') { %>
+                        <li class="nav-item">
+                            <a href="http://localhost:3000/NegomboHardware/manager/home">
+                                <i class="nc-icon nc-bank"></i>
+                                <p class="nav-link-text ms-1">Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost:3000/NegomboHardware/manager/completedOrders">
+                                <i class="nc-icon nc-bank"></i>
+                                <p class="nav-link-text ms-1">Orders</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost:3000/NegomboHardware/manager/reports">
+                                <i class="nc-icon nc-bank"></i>
+                                <p class="nav-link-text ms-1">Statistics</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost:3000/NegomboHardware/manager/account">
+                                <i class="nc-icon nc-bank"></i>
+                                <p class="nav-link-text ms-1">Profile</p>
+                            </a>
+                        </li>
+                        <% } else { %>
+                        <li class="nav-item">
+                            <a href="http://localhost:3000/NegomboHardware/stocks/home">
+                                <i class="nc-icon nc-bank"></i>
+                                <p class="nav-link-text ms-1">Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost:3000/NegomboHardware/stocks/orders">
+                                <i class="nc-icon nc-bank"></i>
+                                <p class="nav-link-text ms-1">Sale Orders</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost:3000/NegomboHardware/stocks/inventory">
+                                <i class="nc-icon nc-bank"></i>
+                                <p class="nav-link-text ms-1">Inventory</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost:3000/NegomboHardware/stocks/suppliers">
+                                <i class="nc-icon nc-bank"></i>
+                                <p class="nav-link-text ms-1">Suppliers</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost:3000/NegomboHardware/stocks/account">
+                                <i class="nc-icon nc-bank"></i>
+                                <p class="nav-link-text ms-1">Profile</p>
+                            </a>
+                        </li>
+                        <% } %>
+                        <li class="active-pro">
 
+                            <button class="btn bg-danger w-100" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop">Logout</button>
 
-                <%- body %>
+                        </li>
 
-
-
-
+                    </ul>
+                </div>
             </div>
-            <footer class="footer py-4  ">
-                <div class="container-fluid">
-                    <div class="row align-items-center justify-content-lg-between">
-                        <div class="col-lg-6 mb-lg-0 mb-4">
-                            <div class="copyright text-center text-sm text-muted text-lg-start">
+
+
+            <div class="main-panel">
+
+                <!-- Navbar -->
+
+
+                <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+                    <div class="container-fluid">
+                        <div class="navbar-wrapper">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark"
+                                            href="javascript:;"><%= title %></a></li>
+                                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><%= page %>
+                                    </li>
+                                </ol>
+                                <!-- <h6 class="font-weight-bolder mb-0"><%= page %></h6> -->
+                            </nav>
+                        </div>
+
+                    </div>
+                </nav>
+
+
+
+                <!-- End Navbar -->
+
+                <div class="content">
+
+
+                    <%- body %>
+
+
+
+
+                </div>
+
+
+                <footer class="footer footer-black  footer-white ">
+                    <div class="container-fluid">
+                        <div class="row">
+                        </div>
+                        <div class="credits ml-auto">
+                            <span class="copyright">
                                 ©
                                 <script>
                                     document.write(new Date().getFullYear())
                                 </script> Negombo Hardware
-                            </div>
+                            </span>
                         </div>
                     </div>
-                </div>
-            </footer>
+                </footer>
 
-        </main>
+
+            </div>
+        </div>
+
 
 
 
@@ -435,6 +466,7 @@
         <script src="/assets/js/material-dashboard.min.js?v=3.0.2"></script>
         <script src="/core/js/customInterface.js"></script>
         <script src="/core/js/notificationsHandler.js"></script>
+        <script src="/assets/js/paper-dashboard.min.js?v=2.0.1" type="text/javascript"></script>
         <script src="<%= script %>"></script>
     </body>
 
