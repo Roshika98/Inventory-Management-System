@@ -8,7 +8,8 @@ const name = 'Stocks';
 const scriptPaths = {
     homepage: '/core/js/controllers/stocks/stockIssueController.js',
     inventory: '/core/js/controllers/stocks/inventoryController.js',
-    order: ''
+    order: '',
+    account: '/core/js/controllers/accounts/accountController.js'
 }
 
 router.get('', authMiddleware.isAuthStocks, (req, res) => {

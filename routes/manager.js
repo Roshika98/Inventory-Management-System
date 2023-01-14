@@ -9,7 +9,7 @@ const name = 'Manager';
 
 const scriptPaths = {
     homepage: '',
-    account: '',
+    account: '/core/js/controllers/accounts/accountController.js',
     order: ''
 }
 
@@ -17,13 +17,20 @@ router.get('', authMiddleware.isAuthManager, (req, res) => {
     res.redirect('/NegomboHardware/manager/home');
 });
 
-router.get('/home', authMiddleware.isAuthManager, (req, res) => {
+// router.get('/home', authMiddleware.isAuthManager, (req, res) => {
+//     var { userType, user_name } = getUserDetails(req);
+//     res.render('partials/manager/dashboard', { title: name, page: 'dashboard', userType, user_name, script: scriptPaths.homepage });
+// });
+
+router.get('/account', authMiddleware.isAuthManager, async (req, res) => {
+    var id = req.session.user_id;
     var { userType, user_name } = getUserDetails(req);
-    res.render('partials/manager/dashboard', { title: name, page: 'dashboard', userType, user_name, script: scriptPaths.homepage });
+    var details = await database.getUserDetails(id);
+    res.render('partials/sales/account', { title: name, page: 'Account', details: details, userType, script: scriptPaths.account, user_name });
 });
 
 
-router.get('/completedOrders', authMiddleware.isAuthManager, async (req, res) => {
+router.get('/home', authMiddleware.isAuthManager, async (req, res) => {
     var { userType, user_name } = getUserDetails(req);
     var salesOrders = await database.getProcessedOrders('sales');
     var inventoryOrders = await database.getProcessedOrders('inventory');
