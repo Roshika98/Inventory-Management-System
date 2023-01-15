@@ -27,7 +27,8 @@
             </div>
             <div class="card-footer p-3">
                 <div class="input-group no-border">
-                    <input type="number" class="form-control" placeholder="Quantity" id="quantity">
+                    <input type="number" class="form-control cartQuantity" placeholder="Quantity" id="quantity" min="0"
+                        value="0" max="<%= products[i].quantity %>">
                 </div>
                 <br>
                 <button type="button" class="btn btn-primary itemCart" data-itemCode="<%= products[i].item_code %>"

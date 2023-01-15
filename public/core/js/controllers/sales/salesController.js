@@ -37,6 +37,14 @@ function itemCart() {
             var item_code = element.getAttribute('data-itemCode');
             var parent = element.parentNode;
             var quantity = parent.querySelector('input').value;
+            var max = parseInt(parent.querySelector('input').getAttribute('max'));
+            if (quantity <= 0) {
+                customNotification.displayNotification('Quantity must be greater than 0', 'warning');
+                return;
+            } else if (quantity > max) {
+                customNotification.displayNotification('Quantity exceeds current stock amount', 'danger');
+                return;
+            }
             var params = JSON.stringify(prepareBody(item_code, quantity));
             var response = await axios.post('http://localhost:3000/NegomboHardware/sales/cart', params,
                 { headers: { 'Content-Type': 'application/json', } });

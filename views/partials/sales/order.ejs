@@ -37,9 +37,9 @@
                         <div class="ms-auto text-end">
                             <button class="btn btn-danger btn-link px-3 mb-0 deleteCartItem" type="button"
                                 data-itemID="<%= items[i].item_code %>">Delete</button>
-                            <button class="btn btn-link text-dark px-3 mb-0 editCartItem"
+                            <!-- <button class="btn btn-link text-dark px-3 mb-0 editCartItem"
                                 data-itemID="<%= items[i].item_code %>"
-                                data-itemQuantity="<%= items[i].item_quantity %>">Edit</button>
+                                data-itemQuantity="<%= items[i].item_quantity %>">Edit</button> -->
                         </div>
                     </li>
                     <% } %>
@@ -71,7 +71,7 @@
                     <% for( let i = 0; i < items.length; i++ ) { %>
                     <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                         <div class="d-flex align-items-center">
-                            <i class="nc-icon nc-html5"></i>
+                            <i class="nc-icon nc-minimal-right"></i>
                             <div class="d-flex flex-column">
                                 <h6 class="mb-1 text-dark text-sm"><%= items[i].item_name %></h6>
                                 <span class="text-xs">Quantity: <%= items[i].item_quantity %></span>

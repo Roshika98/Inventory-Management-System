@@ -8,7 +8,7 @@ const confirmOrder = document.getElementById('order_confirm');
 const discardBtn = document.getElementById('discardOrder');
 const acknowledgeOrder = document.getElementById('acknowledgeOrder');
 var cartItemsDeleteBtns = document.getElementsByClassName('deleteCartItem');
-var cartItemsEditBtns = document.getElementsByClassName('editCartItem');
+// var cartItemsEditBtns = document.getElementsByClassName('editCartItem');
 
 confirmOrder.addEventListener('click', async (event) => {
     const result = await axios.post('http://localhost:3000/NegomboHardware/sales/orders');
@@ -40,12 +40,12 @@ for (let i = 0; i < cartItemsDeleteBtns.length; i++) {
     });
 }
 
-for (let i = 0; i < cartItemsEditBtns.length; i++) {
-    const element = cartItemsEditBtns[i];
-    element.addEventListener('click', async (event) => {
+// for (let i = 0; i < cartItemsEditBtns.length; i++) {
+//     const element = cartItemsEditBtns[i];
+//     element.addEventListener('click', async (event) => {
 
-    });
-}
+//     });
+// }
 
 
 function prepareOrderNotificationData(data) {

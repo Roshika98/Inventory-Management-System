@@ -97,6 +97,20 @@ var displayOrderNotification = function notifyOrderInfo(msg) {
 }
 
 
+const customNotification = {
+    displayNotification: function (msg, type) {
+        var opt = {
+            from: 'top',
+            align: 'center',
+            colorTheme: type,
+            message: msg,
+            timer: 800,
+            icon: 'fa fa-bell'
+        };
+        notifications.showNotification(opt);
+    }
+}
+
 socket = io.connect('http://localhost:3000');
 socket.on('connect', (data) => {
     socket.emit('register', username);
