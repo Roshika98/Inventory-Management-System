@@ -1,7 +1,7 @@
 <div class="row">
-    <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3">
-        <h3 class="text-white text-capitalize ps-3">Order Details</h3>
-    </div>
+    <!-- <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3"> -->
+    <h3 class="title">Order Details</h3>
+    <!-- </div> -->
 </div>
 
 
@@ -19,7 +19,7 @@
     <div class="col-md-7 mt-4">
         <div class="card">
             <div class="card-header pb-0 px-3">
-                <h6 class="mb-0">Item Information</h6>
+                <h5 class="title">Item Information</h5>
             </div>
             <div class="card-body pt-4 p-3">
                 <ul class="list-group">
@@ -35,13 +35,11 @@
                                     class="text-dark ms-sm-2 font-weight-bold"><%= items[i].item_quantity %></span></span>
                         </div>
                         <div class="ms-auto text-end">
-                            <button class="btn btn-link text-danger text-gradient px-3 mb-0 deleteCartItem"
-                                type="button" data-itemID="<%= items[i].item_code %>"><i
-                                    class="material-icons text-sm me-2">delete</i>Delete</button>
-                            <button class="btn btn-link text-dark px-3 mb-0 editCartItem"
+                            <button class="btn btn-danger btn-link px-3 mb-0 deleteCartItem" type="button"
+                                data-itemID="<%= items[i].item_code %>">Delete</button>
+                            <!-- <button class="btn btn-link text-dark px-3 mb-0 editCartItem"
                                 data-itemID="<%= items[i].item_code %>"
-                                data-itemQuantity="<%= items[i].item_quantity %>"><i
-                                    class="material-icons text-sm me-2">edit</i>Edit</button>
+                                data-itemQuantity="<%= items[i].item_quantity %>">Edit</button> -->
                         </div>
                     </li>
                     <% } %>
@@ -59,7 +57,7 @@
                         <h6 class="mb-0">Place Order</h6>
                     </div>
                     <div class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
-                        <i class="material-icons me-2 text-lg">date_range</i>
+                        <i class="nc-icon nc-calendar-60"></i>
                         <% var today=new Date() %>
                         <% var date= today.getFullYear()+" - "+(today.getMonth()+1)+" - "+today.getDate() %>
                         <small><%= date %></small>
@@ -73,9 +71,7 @@
                     <% for( let i = 0; i < items.length; i++ ) { %>
                     <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                         <div class="d-flex align-items-center">
-                            <button
-                                class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                    class="material-icons text-lg">expand_less</i></button>
+                            <i class="nc-icon nc-minimal-right"></i>
                             <div class="d-flex flex-column">
                                 <h6 class="mb-1 text-dark text-sm"><%= items[i].item_name %></h6>
                                 <span class="text-xs">Quantity: <%= items[i].item_quantity %></span>
@@ -94,9 +90,6 @@
                 <ul class="list-group">
                     <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                         <div class="d-flex align-items-center">
-                            <button
-                                class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                    class="material-icons text-lg">expand_less</i></button>
                             <div class="d-flex flex-column">
                                 <h6 class="mb-1 text-dark text-sm">Payment</h6>
                             </div>

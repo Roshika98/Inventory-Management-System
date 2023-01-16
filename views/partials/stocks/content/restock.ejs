@@ -3,11 +3,12 @@
     <p id="prodID" data-itemID="<%= restock.prodID %>">itemID : <%= restock.prodID %> </p>
 </div>
 <div class="row">
-    <div class="input-group input-group-outline my-3">
-        <input type="number" class="form-control" id="prodQuantity" placeholder="Quantity">
+    <div class="form-group input-group-outline my-3">
+        <label for="prodQuantity">Quantity</label>
+        <input type="number" class="form-control" id="prodQuantity">
     </div>
-    <div class="input-group input-group-static mb-4">
-        <label for="supplier" class="ms-0">Select Supplier</label>
+    <div class="form-group input-group-static mb-4">
+        <label for="supplier">Select Supplier</label>
         <select class="form-control" id="supplier">
             <% for( let i = 0; i < restock.supplierDetails.length; i++ ) { %>
             <% var element=restock.supplierDetails[i] %>

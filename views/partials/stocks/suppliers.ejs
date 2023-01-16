@@ -1,20 +1,18 @@
-<br><br>
-<div class="card card-body mx-3 mx-md-4 mt-n6">
-    <div class="row gx-4 mb-2">
-        <div class="col-lg-6 col-md-6 my-lg-auto ms-lg-auto me-lg-0 mx-auto mt-3">
-            <div class="nav-wrapper position-relative">
-                <ul class="nav nav-pills nav-fill p-1" role="tablist">
+<h3 class="title">Supplier Operations</h3>
+<div class="card">
+    <div class="card-header">
+        <div class="col-lg-12">
+            <div class="nav-wrapper">
+                <ul class="nav nav-tabs nav-tabs-primary " role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="pill" href="#home" role="tab"
-                            aria-selected="true">
-                            <i class="material-icons text-lg position-relative">home</i>
+                        <a class="nav-link active " data-bs-toggle="tab" href="#home" role="tab" aria-selected="true">
+
                             <span class="ms-1">Suppliers</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="pill" href="#menu2" role="tab"
-                            aria-selected="false">
-                            <i class="fa-solid fa-file-invoice"></i>
+                        <a class="nav-link " data-bs-toggle="tab" href="#menu2" role="tab" aria-selected="false">
+
                             <span class="ms-1">Add Supplier</span>
                         </a>
                     </li>
@@ -23,90 +21,86 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="card-body">
         <div class="tab-content">
             <div id="home" class="tab-pane active">
                 <div>
-                    <h4>All Suppliers</h4>
+                    <h6 class="title">All Suppliers</h6>
                 </div>
-                <div class="table-responsive p-0">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th
-                                        class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Name
-                                    </th>
-                                    <th
-                                        class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Address</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Contact No</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        E-mail</th>
+                <!-- <div class="table"> -->
+                <div class="table">
+                    <table class="table">
+                        <thead class="text-primary">
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Address</th>
+                                <th>
+                                    Contact No</th>
+                                <th>
+                                    E-mail</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% for( let i = 0; i < suppliers.length; i++ ) { %>
-                                <% var element=suppliers[i] %>
-                                <tr>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold"><%= element.name %>
-                                        </span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold"><%= element.address %>
-                                        </span>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="text-secondary text-xs font-weight-bold"><%= element.ph_no %>
-                                        </span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold"><%= element.email %>
-                                        </span>
-                                    </td>
-                                    <!-- <td class="align-middle">
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for( let i = 0; i < suppliers.length; i++ ) { %>
+                            <% var element=suppliers[i] %>
+                            <tr>
+                                <td>
+                                    <%= element.name %>
+
+                                </td>
+                                <td>
+                                    <%= element.address %>
+
+                                </td>
+                                <td>
+                                    <%= element.ph_no %>
+
+                                </td>
+                                <td>
+                                    <%= element.email %>
+
+                                </td>
+                                <!-- <td class="align-middle">
                                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
                                             data-toggle="tooltip" data-original-title="Edit user">
                                             Edit
                                         </a>
                                     </td> -->
-                                </tr>
-                                <% } %>
-                            </tbody>
-                        </table>
-                    </div>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
                 </div>
+                <!-- </div> -->
                 <br>
 
             </div>
 
             <div id="menu2" class="tab-pane">
                 <div>
-                    <h4>Supplier Details</h4>
+                    <h6 class="title">Supplier Details</h6>
                 </div>
                 <form method="post" action="/NegomboHardware/stocks/addSupplier">
                     <fieldset>
                         <!-- <legend>Add new Item</legend> -->
-                        <div class="input-group input-group-outline mb-3">
-                            <label for="name" class="form-label">Supplier Name</label>
+                        <div class="form-group input-group-outline mb-3">
+                            <label for="name">Supplier Name</label>
                             <input type="text" id="name" name="name" class="form-control">
                         </div>
-                        <div class="input-group input-group-outline mb-3">
-                            <label for="mobile" class="form-label">Mobile no</label>
+                        <div class="form-group input-group-outline mb-3">
+                            <label for="mobile">Mobile no</label>
                             <input type="text" id="mobile" name="mobile" class="form-control">
                         </div>
-                        <div class="input-group input-group-outline mb-3">
-                            <label for="address" class="form-label">Address</label>
+                        <div class="form-group input-group-outline mb-3">
+                            <label for="address">Address</label>
                             <input type="text" id="address" name="address" class="form-control">
                         </div>
-                        <div class="input-group input-group-outline mb-3">
-                            <label for="email" class="form-label">email</label>
+                        <div class="form-group input-group-outline mb-3">
+                            <label for="email">email</label>
                             <input type="email" id="email" name="email" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -141,3 +135,7 @@
         </div>
     </div>
 </div>
+<script>
+    const pageIndicator = document.getElementById('suppliers');
+    pageIndicator.classList.add('active');
+</script>

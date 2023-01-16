@@ -1,8 +1,8 @@
-<div class="row">
-    <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3">
-        <h3 class="text-white text-capitalize ps-3">Current Inventory Item Requests</h3>
-    </div>
-</div>
+<!-- <div class="row"> -->
+<!-- <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3"> -->
+<h3 class="title">Current Inventory Item Requests</h3>
+<!-- </div> -->
+<!-- </div> -->
 <% if (orderDetails.length==0) { %>
 <div class="row">
     <div class="col-md-10 mt-4">
@@ -21,13 +21,13 @@
     <div class="col-md-10 mt-4">
         <div class="card mb-4 card-center">
             <div class="card-header pb-0 px-3">
-                <h6 class="mb-0">Pending Orders</h6>
+                <h6 class="title">Pending Requests</h6>
             </div>
             <div class="card-body pt-4 p-3">
                 <ul class="list-group">
                     <% for( let i = 0; i < orderDetails.length; i++ ) { %>
                     <% var element=orderDetails[i] %>
-                    <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                    <li class="list-group-item border-2 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                         <div class="d-flex flex-column">
                             <h6 class="mb-3 text-sm"><%= element.orderID %> </h6>
                             <span class="mb-2 text-xs">Item count: <span
@@ -37,11 +37,9 @@
                         </div>
                         <div class="ms-auto text-end">
                             <button class="btn btn-link text-danger text-gradient px-3 mb-0 deleteCartItem"
-                                type="button" data-itemID="<%= element.orderID %>"><i
-                                    class="material-icons text-sm me-2">delete</i>Discard</button>
+                                type="button" data-itemID="<%= element.orderID %>">Discard</button>
                             <button class="btn btn-link text-dark px-3 mb-0 stockOrder"
-                                data-orderID="<%= element.orderID %>"><i
-                                    class="material-icons text-sm me-2">edit</i>Process</button>
+                                data-orderID="<%= element.orderID %>">Process</button>
                         </div>
                     </li>
                     <% } %>
@@ -84,3 +82,8 @@
         </div>
     </div>
 </div>
+
+<script>
+    const pageIndicator = document.getElementById('dashboard');
+    pageIndicator.classList.add('active');
+</script>

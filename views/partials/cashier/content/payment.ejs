@@ -12,7 +12,7 @@
                         </h6>
                     </div>
                     <div class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
-                        <i class="material-icons me-2 text-lg">date_range</i>
+                        <i class="nc-icon nc-calendar-60"></i>
                         <% var today=new Date() %>
                         <% var date= today.getFullYear()+" - "+(today.getMonth()+1)+" - "+today.getDate() %>
                         <small><%= date %></small>
@@ -26,9 +26,7 @@
                     <% for( let i = 0; i < items.length; i++ ) { %>
                     <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                         <div class="d-flex align-items-center">
-                            <button
-                                class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                    class="material-icons text-lg">expand_less</i></button>
+                            <i class="nc-icon nc-html5"></i>
                             <div class="d-flex flex-column">
                                 <h6 class="mb-1 text-dark text-sm"><%= items[i].item_name %></h6>
                                 <span class="text-xs">Quantity: <%= items[i].item_quantity %></span>
@@ -47,9 +45,6 @@
                 <ul class="list-group">
                     <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                         <div class="d-flex align-items-center">
-                            <button
-                                class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                    class="material-icons text-lg">expand_less</i></button>
                             <div class="d-flex flex-column">
                                 <h6 class="mb-1 text-dark text-sm">Payment</h6>
                             </div>
