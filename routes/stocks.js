@@ -57,6 +57,13 @@ router.get('/inventory/restock', authMiddleware.isAuthStocks, async (req, res) =
     res.render('partials/stocks/content/restock', { layout: false, restock: result });
 });
 
+router.get('/inventory/editProduct/:id', authMiddleware.isAuthStocks, async (req, res) => {
+    var { userType, user_name } = getUserDetails(req);
+    var product = await database.getProduct(req.params.id);
+    console.log(product);
+    res.render('partials/stocks/editProd', { userType, user_name, title: name, page: 'Edit Product', script: '', product });
+});
+
 router.get('/suppliers', authMiddleware.isAuthStocks, async (req, res) => {
     var { userType, user_name } = getUserDetails(req);
     var suppliers = await database.getSupplierDetails();
@@ -96,6 +103,11 @@ router.post('/addProduct', authMiddleware.isAuthStocks, async (req, res) => {
         req.flash('success', 'item successfully added!');
         res.redirect('/NegomboHardware/stocks/inventory');
     }
+});
+
+router.post('/updateProduct/:id', authMiddleware.isAuthStocks, async (req, res) => {
+    var result = await database.updateProduct(req.params.id, req.body);
+    res.redirect('/NegomboHardware/stocks/inventory');
 });
 
 router.post('/addSupplier', authMiddleware.isAuthStocks, async (req, res) => {

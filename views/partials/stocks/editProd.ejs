@@ -1,0 +1,39 @@
+<div class="card">
+    <div class="card-header">
+        <div>
+            <h6 class="title">Update Product</h6>
+        </div>
+    </div>
+    <div class="card-body">
+
+        <form method="post" action="/NegomboHardware/stocks/updateProduct/<%= product.item_code %>">
+            <fieldset>
+                <!-- <legend>Add new Item</legend> -->
+                <div class="form-group input-group-outline mb-3">
+                    <label for="name">Item Name</label>
+                    <input type="text" id="name" name="name" class="form-control" value="<%= product.name %>" required>
+                </div>
+                <div class="form-group input-group-outline mb-3">
+                    <label for="details">Description</label>
+                    <input type="text" id="details" name="details" class="form-control"
+                        value="<%= product.product_details %>" required>
+                </div>
+                <div class="form-group input-group-outline mb-3">
+                    <label for="sellprice">Selling Price (Rs) </label>
+                    <input type="number" min="1" id="sellprice" name="sellprice" class="form-control"
+                        value="<%= product.unit_price %>" required>
+                </div>
+                <!-- <div class="input-group input-group-outline mb-3">
+                    <label for="buyingprice" class="form-label">Buying Price (Rs) </label>
+                    <input type="number" min="1" id="buyingprice" name="buyingprice" class="form-control">
+                </div> -->
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<script>
+    const pageIndicator = document.getElementById('inventory');
+    pageIndicator.classList.add('active');
+</script>

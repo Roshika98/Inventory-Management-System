@@ -410,6 +410,11 @@ class database {
         return obj;
     }
 
+    async getProduct(itemID) {
+        var q = 'select * from products where item_code=?';
+        var result = await this.connection.execute(q, [itemID]);
+        return result[0][0];
+    }
 
     // * --------------------- CREATE OPERATIONS ---------------------------------
 
@@ -567,6 +572,11 @@ class database {
         return result[0];
     }
 
+    async updateProduct(itemID, params) {
+        var q = 'update products set name=?,product_details=?,unit_price=? where item_code=?';
+        var result = await this.connection.execute(q, [params.name, params.details, params.sellprice, itemID]);
+        return;
+    }
 
     // *----------------------- DELETE OPERATIONS --------------------------------
 
